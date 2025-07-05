@@ -1,4 +1,3 @@
-// src/store/cartSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 // initialState defines the default shape of our cart data
@@ -25,16 +24,6 @@ const cartSlice = createSlice({
   name: "cart", // action type prefix: 'cart/addItem', etc.
   initialState, // the state this slice manages
   reducers: {
-    /*
-          addItem(state, action)
-          • state: current cart state (we can mutate it safely via Immer)
-          • action.payload: the new item object ({ id, name, price })
-          Behavior:
-            1. Increase totalQuantity by 1
-            2. If the item already exists in state.items, increment its quantity
-            3. Otherwise, push the new item into items[] with quantity = 1
-            4. Increase totalAmount by the item's price
-        */
     addItem(state, action) {
       const newItem = action.payload;
       const existing = state.items.find((item) => item.id === newItem.id);
@@ -53,16 +42,6 @@ const cartSlice = createSlice({
       // 3. Update total cost
       state.totalAmount += newItem.price;
     },
-
-    /*
-          removeItem(state, action)
-          • action.payload: the id of the item to remove
-          Behavior:
-            1. Find the item in state.items
-            2. Decrease totalQuantity by that item's quantity
-            3. Decrease totalAmount by (price × quantity)
-            4. Remove the item from items[]
-        */
     removeItem(state, action) {
       const id = action.payload;
       const index = state.items.findIndex((item) => item.id === id);
@@ -77,12 +56,6 @@ const cartSlice = createSlice({
         state.items.splice(index, 1);
       }
     },
-
-    /*
-          clearCart(state)
-          Behavior:
-            • Reset items, totalQuantity, and totalAmount to initial state
-        */
     clearCart(state) {
       state.items = [];
       state.totalQuantity = 0;

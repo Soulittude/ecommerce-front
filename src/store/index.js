@@ -1,26 +1,21 @@
-// src/store/index.js
 import { configureStore } from "@reduxjs/toolkit";
 import cartReducer from "./cartSlice";
 
 /*
-  configureStore() from Redux Toolkit:
-  - Automatically sets up the Redux store with good defaults:
-    • combineReducers (using the `reducer` object you pass)
-    • Redux DevTools integration
-    • Default middleware including thunk for async logic
+  configureStore():
+  - Accepts a `reducer` object mapping slice names to their reducers.
+  - Bundles those reducers with `combineReducers`.
+  - Enables Redux DevTools by default (for non-production).
+  - Adds default middleware (e.g., thunk for async logic).
 */
 const store = configureStore({
   reducer: {
-    // Assign our cart slice reducer under the key 'cart'
     cart: cartReducer,
-    // In the future, you can add more slices here, e.g.:
-    // user: userReducer,
-    // products: productsReducer,
+    // future slices: user: userReducer, products: productsReducer, etc.
   },
-  // You can customize middleware or devTools options here if needed:
-  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(customLogger),
+  // Optional customizations:
+  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
   // devTools: process.env.NODE_ENV !== 'production',
 });
 
-// Export the configured store for use in main.jsx
 export default store;
