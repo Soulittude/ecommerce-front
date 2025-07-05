@@ -1,0 +1,10 @@
+{
+    "welcome": "Welcome to our shop",
+    "cart": {
+        "title": "Your Cart",
+        "empty": "Your cart is empty."
+    },
+    "product":{
+        "price": "Price: ${{price}}"
+    }
+}

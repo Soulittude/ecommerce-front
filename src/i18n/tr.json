@@ -1,0 +1,10 @@
+{
+    "welcome": "Mağazamıza hoş geldiniz",
+    "cart": {
+        "title": "Sepetiniz",
+        "empty": "Sepetiniz boş."
+    },
+    "product":{
+        "price": "Fiyat: ${{price}}"
+    }
+}
