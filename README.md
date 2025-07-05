@@ -51,6 +51,8 @@ ecommerce-front
 │  │     └─ button.jsx
 │  ├─ hooks
 │  ├─ i18n
+│  │  ├─ en.json
+│  │  └─ tr.json
 │  ├─ i18n.js
 │  ├─ index.css
 │  ├─ lib
@@ -59,6 +61,8 @@ ecommerce-front
 │  ├─ pages
 │  ├─ routes.jsx
 │  └─ store
+│     ├─ cartSlice.js
+│     └─ index.js
 └─ vite.config.js
 
 ```
