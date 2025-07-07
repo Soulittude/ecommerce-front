@@ -13,6 +13,7 @@ export default function Cart() {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">{t("cart.title")}</h1>
+
       {totalQuantity === 0 ? (
         <p>{t("cart.empty")}</p>
       ) : (
@@ -24,7 +25,7 @@ export default function Cart() {
                   {item.name} x {item.quantity}
                 </span>
                 <button
-                  className="text-green-400 hover:underline"
+                  className="text-red-500 hover:underline"
                   onClick={() => dispatch(removeItem(item.id))}
                 >
                   {t("cart.remove")}
@@ -32,13 +33,18 @@ export default function Cart() {
               </li>
             ))}
           </ul>
-          <p className="">
+
+          <p className="mb-2">
             {t("cart.totalItems")}: {totalQuantity}
           </p>
-          <p className="">
-            {t("cart.totalAmount")}: {totalAmount}
+          <p className="mb-2">
+            {t("cart.totalAmount")}: ${totalAmount}
           </p>
-          <button className="" onClick={dispatch(clearCart())}>
+
+          <button
+            className="px-4 py-2 bg-red-500 text-white rounded"
+            onClick={() => dispatch(clearCart())}
+          >
             {t("cart.clearCart")}
           </button>
         </div>
