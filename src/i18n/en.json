@@ -2,15 +2,19 @@
     "welcome": "Welcome",
     "cart": {
         "title": "My Cart",
-        "empty": "Your cart is now empty"
+        "empty": "Your cart is now empty",
+        "totalItems": "Total Items Count",
+        "totalAmount": "Total Amount",
+        "clearCart": "Clear Cart"
     },
     "product_c":{
         "title": "Products",
-        "price":"Price: ${{price}}"
+        "price":"Price: ${{price}}",
+        "addToCart":"Add To Cart"
     },
-    "products":{
+    "product":{
         "apple": "Apple",
         "banana": "Banana",
-        "peach": "Apple"
+        "peach": "Peach"
     }
 }

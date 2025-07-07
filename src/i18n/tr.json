@@ -2,13 +2,17 @@
     "welcome": "Hoşgeldiniz",
     "cart": {
         "title": "Sepetim",
-        "empty": "Şuan sepetiniz boş"
+        "empty": "Şuan sepetiniz boş",
+        "totalItems": "Toplam Ürün Sayısı",
+        "totalAmount": "Toplam Fiyat",
+        "clearCart": "Sepeti Temizle"
     },
     "product_c":{
         "title": "Ürünler",
-        "price":"Fiyat: ${{price}}"
+        "price":"Fiyat: ${{price}}",
+        "addToCart":"Sepete Ekle"
     },
-    "products":{
+    "product":{
         "apple": "Elma",
         "banana": "Muz",
         "peach": "Şeftali"

@@ -12,55 +12,57 @@ export default function Home() {
 
   // Example product list
   const products = [
-    { id: "apple", name: "Apple", price: 1 },
-    { id: "banana", name: "Banana", price: 2 },
-    { id: "peach", name: "Peach", price: 3 },
+    { id: "apple", name: t("product.apple"), price: 1 },
+    { id: "banana", name: t("product.banana"), price: 2 },
+    { id: "peach", name: t("product.peach"), price: 3 },
   ];
 
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">{t("welcome")}</h1>
-
       <section className="mb-6">
-        <h2 className="text-xl font-semibold mb-2">Products</h2>
+        <h2 className="text-xl font-semibold mb-2">{t("product_c.title")}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {products.map((prod) => (
             <div key={prod.id} className="border p-4 rounded">
-              <h3 className="font-medium mb-1">{prod.name}</h3>
-              <p className="mb-2">
-                {t("product.price", { price: prod.price })}
+              <h3 className="font-medium mb-2">{prod.name}</h3>
+              <p className="mb-1">
+                {t("product_c.price", { price: prod.price })}
               </p>
               <button
-                className="px-3 py-1 bg-blue-500 text-white rounded"
+                className="bg-blue-500 px-3 py-1 text-white rounded"
                 onClick={() => dispatch(addItem(prod))}
               >
-                Add to Cart
+                {t("product_c.addToCart")}
               </button>
             </div>
           ))}
         </div>
       </section>
-
-      <section className="border-t pt-4">
+      <section className="border-t pt-6">
         <h2 className="text-xl font-semibold mb-2">{t("cart.title")}</h2>
         {totalQuantity === 0 ? (
           <p>{t("cart.empty")}</p>
         ) : (
           <>
-            <ul className="mb-2">
+            <ul>
               {items.map((item) => (
                 <li key={item.id} className="mb-1">
-                  {item.name} x {item.quantity}
+                  {item.name} x {item.price}
                 </li>
               ))}
             </ul>
-            <p>Total Items: {totalQuantity}</p>
-            <p>Total Amount: ${totalAmount}</p>
+            <p>
+              {t("cart.totalItems")}: {totalQuantity}
+            </p>
+            <p>
+              {t("cart.totalAmount")}: {totalAmount}
+            </p>
             <button
-              className="mt-2 px-3 py-1 bg-red-500 text-white rounded"
+              className="bg-red-400 px-3 py-1 text-white rounded"
               onClick={() => dispatch(clearCart())}
             >
-              Clear Cart
+              {t("cart.clearCart")}
             </button>
           </>
         )}
