@@ -5,7 +5,8 @@
         "empty": "Your cart is now empty",
         "totalItems": "Total Items Count",
         "totalAmount": "Total Amount",
-        "clearCart": "Clear Cart"
+        "clearCart": "Clear Cart",
+        "remove": "Remove"
     },
     "product_c":{
         "title": "Products",
@@ -16,5 +17,10 @@
         "apple": "Apple",
         "banana": "Banana",
         "peach": "Peach"
+    },
+    "nav":{
+        "mystore": "My Store",
+        "home": "Home",
+        "cart": "Cart"
     }
 }
