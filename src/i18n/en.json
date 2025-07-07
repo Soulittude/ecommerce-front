@@ -1,10 +1,16 @@
 {
-    "welcome": "Welcome to our shop",
+    "welcome": "Welcome",
     "cart": {
-        "title": "Your Cart",
-        "empty": "Your cart is empty."
+        "title": "My Cart",
+        "empty": "Your cart is now empty"
     },
-    "product":{
-        "price": "Price: ${{price}}"
+    "product_c":{
+        "title": "Products",
+        "price":"Price: ${{price}}"
+    },
+    "products":{
+        "apple": "Apple",
+        "banana": "Banana",
+        "peach": "Apple"
     }
 }

@@ -1,10 +1,16 @@
 {
-    "welcome": "Mağazamıza hoş geldiniz",
+    "welcome": "Hoşgeldiniz",
     "cart": {
-        "title": "Sepetiniz",
-        "empty": "Sepetiniz boş."
+        "title": "Sepetim",
+        "empty": "Şuan sepetiniz boş"
     },
-    "product":{
-        "price": "Fiyat: ${{price}}"
+    "product_c":{
+        "title": "Ürünler",
+        "price":"Fiyat: ${{price}}"
+    },
+    "products":{
+        "apple": "Elma",
+        "banana": "Muz",
+        "peach": "Şeftali"
     }
 }
