@@ -69,3 +69,70 @@ ecommerce-front
 └─ vite.config.js
 
 ```
+
+```
+ecommerce-front
+├─ .husky
+│  ├─ pre-commit
+│  └─ _
+│     ├─ applypatch-msg
+│     ├─ commit-msg
+│     ├─ h
+│     ├─ husky.sh
+│     ├─ post-applypatch
+│     ├─ post-checkout
+│     ├─ post-commit
+│     ├─ post-merge
+│     ├─ post-rewrite
+│     ├─ pre-applypatch
+│     ├─ pre-auto-gc
+│     ├─ pre-commit
+│     ├─ pre-merge-commit
+│     ├─ pre-push
+│     ├─ pre-rebase
+│     └─ prepare-commit-msg
+├─ components.json
+├─ eslint.config.js
+├─ index.html
+├─ jsconfig.json
+├─ package-lock.json
+├─ package.json
+├─ public
+│  └─ vite.svg
+├─ README.md
+├─ src
+│  ├─ api
+│  │  ├─ apiClient.js
+│  │  ├─ auth.js
+│  │  ├─ categories.js
+│  │  ├─ orders.js
+│  │  ├─ products.js
+│  │  └─ reviews.js
+│  ├─ App.css
+│  ├─ App.jsx
+│  ├─ assets
+│  │  └─ react.svg
+│  ├─ components
+│  │  └─ ui
+│  │     ├─ button.jsx
+│  │     └─ navbar.jsx
+│  ├─ hooks
+│  │  └─ queries.js
+│  ├─ i18n
+│  │  ├─ en.json
+│  │  └─ tr.json
+│  ├─ i18n.js
+│  ├─ index.css
+│  ├─ lib
+│  │  └─ utils.js
+│  ├─ main.jsx
+│  ├─ pages
+│  │  ├─ Cart.jsx
+│  │  └─ Home.jsx
+│  ├─ routes.jsx
+│  └─ store
+│     ├─ cartSlice.js
+│     └─ index.js
+└─ vite.config.js
+
+```

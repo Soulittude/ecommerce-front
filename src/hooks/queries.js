@@ -8,7 +8,8 @@ import * as orderApi from "../api/orders";
 // === Authentication ===
 export const useRegister = () => {
   const qc = useQueryClient();
-  return useMutation(authApi.registerUser, {
+  return useMutation({
+    mutationFn: authApi.registerUser,
     onSuccess: (data) => {
       localStorage.setItem("jwt", data.jwt);
       qc.setQueryData(["currentUser"], data.user);
@@ -18,7 +19,8 @@ export const useRegister = () => {
 
 export const useLogin = () => {
   const qc = useQueryClient();
-  return useMutation(authApi.loginUser, {
+  return useMutation({
+    mutationFn: authApi.loginUser,
     onSuccess: (data) => {
       localStorage.setItem("jwt", data.jwt);
       qc.setQueryData(["currentUser"], data.user);
@@ -27,85 +29,100 @@ export const useLogin = () => {
 };
 
 export const useCurrentUser = () =>
-  useQuery(["currentUser"], authApi.fetchCurrentUser, {
-    staleTime: 1000 * 60 * 5, // 5 minutes
+  useQuery({
+    queryKey: ["currentUser"],
+    queryFn: authApi.fetchCurrentUser,
+    staleTime: 1000 * 60 * 5,
     retry: false,
   });
 
 // === Categories ===
 export const useCategories = () =>
-  useQuery(["categories"], categoryApi.fetchCategories, {
-    staleTime: 1000 * 60 * 60, // 1 hour
+  useQuery({
+    queryKey: ["categories"],
+    queryFn: categoryApi.fetchCategories,
+    staleTime: 1000 * 60 * 60,
   });
 
 // === Products ===
 export const useProducts = (params) =>
-  useQuery(["products", params], productApi.fetchProducts, {
+  useQuery({
+    queryKey: ["products", params],
+    queryFn: () => productApi.fetchProducts({ queryKey: ["products", params] }),
     keepPreviousData: true,
-    staleTime: 1000 * 60, // 1 minute
+    staleTime: 1000 * 60,
   });
 
 export const useProduct = (slug) =>
-  useQuery(["product", slug], productApi.fetchProduct, {
+  useQuery({
+    queryKey: ["product", slug],
+    queryFn: () => productApi.fetchProduct({ queryKey: ["product", slug] }),
     enabled: Boolean(slug),
   });
 
 export const useCreateProduct = () => {
   const qc = useQueryClient();
-  return useMutation(productApi.createProduct, {
-    onSuccess: () => qc.invalidateQueries(["products"]),
+  return useMutation({
+    mutationFn: productApi.createProduct,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["products"] }),
   });
 };
 
 export const useUpdateProduct = () => {
   const qc = useQueryClient();
-  return useMutation(productApi.updateProduct, {
-    onSuccess: () => qc.invalidateQueries(["products"]),
+  return useMutation({
+    mutationFn: productApi.updateProduct,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["products"] }),
   });
 };
 
 export const useDeleteProduct = () => {
   const qc = useQueryClient();
-  return useMutation(productApi.deleteProduct, {
-    onSuccess: () => qc.invalidateQueries(["products"]),
+  return useMutation({
+    mutationFn: productApi.deleteProduct,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["products"] }),
   });
 };
 
 // === Reviews ===
 export const useReviews = (slug) =>
-  useQuery(
-    ["reviews", slug],
-    () => reviewApi.fetchReviews({ queryKey: ["reviews", slug] }),
-    {
-      enabled: Boolean(slug),
-    },
-  );
+  useQuery({
+    queryKey: ["reviews", slug],
+    queryFn: () => reviewApi.fetchReviews({ queryKey: ["reviews", slug] }),
+    enabled: Boolean(slug),
+  });
 
 export const useCreateReview = (slug) => {
   const qc = useQueryClient();
-  return useMutation((review) => reviewApi.createReview({ slug, review }), {
-    onSuccess: () => qc.invalidateQueries(["reviews", slug]),
+  return useMutation({
+    mutationFn: (review) => reviewApi.createReview({ slug, review }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["reviews", slug] }),
   });
 };
 
 // === Orders ===
 export const useOrders = () =>
-  useQuery(["orders"], orderApi.fetchOrders, {
-    staleTime: 1000 * 60, // 1 minute
+  useQuery({
+    queryKey: ["orders"],
+    queryFn: orderApi.fetchOrders,
+    staleTime: 1000 * 60,
     enabled: Boolean(localStorage.getItem("jwt")),
   });
 
 export const useOrder = (id) =>
-  useQuery(["order", id], () => orderApi.fetchOrder(id), {
+  useQuery({
+    queryKey: ["order", id],
+    queryFn: () => orderApi.fetchOrder(id),
     enabled: Boolean(id),
   });
 
 export const useCreateOrder = () => {
   const qc = useQueryClient();
-  return useMutation(orderApi.createOrder, {
+  return useMutation({
+    mutationFn: orderApi.createOrder,
     onSuccess: () => {
-      qc.invalidateQueries(["orders"]);
-      qc.invalidateQueries(["cart"]);
+      qc.invalidateQueries({ queryKey: ["orders"] });
+      qc.invalidateQueries({ queryKey: ["cart"] });
     },
   });
 };
