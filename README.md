@@ -48,7 +48,8 @@ ecommerce-front
 │  │  └─ react.svg
 │  ├─ components
 │  │  └─ ui
-│  │     └─ button.jsx
+│  │     ├─ button.jsx
+│  │     └─ navbar.jsx
 │  ├─ hooks
 │  ├─ i18n
 │  │  ├─ en.json
@@ -59,6 +60,8 @@ ecommerce-front
 │  │  └─ utils.js
 │  ├─ main.jsx
 │  ├─ pages
+│  │  ├─ Cart.jsx
+│  │  └─ Home.jsx
 │  ├─ routes.jsx
 │  └─ store
 │     ├─ cartSlice.js
