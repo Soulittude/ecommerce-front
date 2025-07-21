@@ -25,7 +25,7 @@ export default function Cart() {
                   {item.name} x {item.quantity}
                 </span>
                 <button
-                  className="text-red-500 hover:underline"
+                  className="text-red-500 border border-red-500 active:bg-red-100 rounded px-2 py-1 hover:underline"
                   onClick={() => dispatch(removeItem(item.id))}
                 >
                   {t("cart.remove")}
@@ -38,11 +38,11 @@ export default function Cart() {
             {t("cart.totalItems")}: {totalQuantity}
           </p>
           <p className="mb-2">
-            {t("cart.totalAmount")}: ${totalAmount}
+            {t("cart.totalAmount")}: {totalAmount} ₺
           </p>
 
           <button
-            className="px-4 py-2 bg-red-500 text-white rounded"
+            className="px-4 py-2 bg-red-500 hover:bg-red-600 active:bg-red-500 text-white rounded"
             onClick={() => dispatch(clearCart())}
           >
             {t("cart.clearCart")}

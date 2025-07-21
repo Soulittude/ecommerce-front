@@ -32,7 +32,7 @@ export default function ProductCard({ product }) {
         <p className="text-gray-700 mb-2">{product.price} ₺</p>
         <button
           onClick={handleAddToCart}
-          className="mt-auto bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
+          className="mt-auto bg-blue-500 hover:bg-blue-600 active:bg-blue-500 text-white px-3 py-1 rounded"
         >
           Add to cart
         </button>
