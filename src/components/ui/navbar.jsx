@@ -1,35 +1,43 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useTranslation } from "react-i18next";
+import { Link, useSearchParams } from "react-router-dom";
+import { useCategories } from "../../hooks/queries";
 
 export default function Navbar() {
-  const { t } = useTranslation();
-  const totalQuantity = useSelector((state) => state.cart.totalQuantity);
+  const [searchParams] = useSearchParams();
+  const { data: categories = [], isLoading, isError } = useCategories();
 
   return (
-    <nav className="bg-purple-200 shadow-md p-4 flex justify-between items-center">
-      <Link to="/" className="text-xl font-bold">
-        {t("nav.mystore")}
+    <nav className="bg-white shadow p-4 flex items-center">
+      <Link to="/" className="text-xl font-bold mr-6">
+        MyStore
       </Link>
 
-      <ul className="flex space-x-4">
-        <li>
-          <Link to="/" className="hover:text-blue-600">
-            {t("nav.home")}
-          </Link>
-        </li>
-        <li>
-          <Link to="/cart" className="relative hover:text-blue-600">
-            {t("nav.cart")}
-            {totalQuantity > 0 && (
-              <span className="absolute -top-2 -right-3 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
-                {totalQuantity}
-              </span>
-            )}
-          </Link>
-        </li>
-      </ul>
+      {isLoading && <span className="mr-4">Loading categories…</span>}
+      {isError && (
+        <span className="mr-4 text-red-500">Error loading categories</span>
+      )}
+
+      {!isLoading && !isError && (
+        <div className="flex space-x-4">
+          {categories.map((cat) => (
+            <Link
+              key={cat.slug}
+              to={`/?category=${cat.slug}`}
+              className={
+                searchParams.get("category") === cat.slug
+                  ? "font-semibold text-blue-600"
+                  : ""
+              }
+            >
+              {cat.name}
+            </Link>
+          ))}
+        </div>
+      )}
+
+      <Link to="/cart" className="ml-auto">
+        Cart
+      </Link>
     </nav>
   );
 }
