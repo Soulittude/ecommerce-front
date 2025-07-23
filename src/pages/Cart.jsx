@@ -1,7 +1,12 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
-import { removeItem, clearCart } from "../store/cartSlice";
+import {
+  removeItem,
+  clearCart,
+  incrementQuantity,
+  decrementQuantity,
+} from "../store/cartSlice";
 
 export default function Cart() {
   const { t } = useTranslation();
@@ -11,42 +16,112 @@ export default function Cart() {
   );
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">{t("cart.title")}</h1>
+    <div className="max-w-4xl mx-auto p-4 md:p-6 pb-16 md:pb-6">
+      <h1 className="text-3xl font-bold text-gray-900 mb-6">
+        {t("cart.title")}
+      </h1>
 
       {totalQuantity === 0 ? (
-        <p>{t("cart.empty")}</p>
-      ) : (
-        <div>
-          <ul className="mb-4">
-            {items.map((item) => (
-              <li key={item.id} className="flex justify-between mb-2">
-                <span>
-                  {item.name} x {item.quantity}
-                </span>
-                <button
-                  className="text-red-500 border border-red-500 active:bg-red-100 rounded px-2 py-1 hover:underline"
-                  onClick={() => dispatch(removeItem(item.id))}
-                >
-                  {t("cart.remove")}
-                </button>
-              </li>
-            ))}
-          </ul>
-
-          <p className="mb-2">
-            {t("cart.totalItems")}: {totalQuantity}
-          </p>
-          <p className="mb-2">
-            {t("cart.totalAmount")}: {totalAmount} ₺
-          </p>
-
-          <button
-            className="px-4 py-2 bg-red-500 hover:bg-red-600 active:bg-red-500 text-white rounded"
-            onClick={() => dispatch(clearCart())}
+        <div className="flex flex-col items-center justify-center min-h-[300px] gap-4 animate-fade-in">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-24 w-24 text-gray-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
           >
-            {t("cart.clearCart")}
-          </button>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+            />
+          </svg>
+          <p className="text-xl text-gray-500">{t("cart.empty")}</p>
+        </div>
+      ) : (
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {items.map((item) => (
+              <div
+                key={item.id}
+                className="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200"
+              >
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-900">
+                      {item.name}
+                    </h3>
+                    <div className="flex items-center gap-3 mt-2">
+                      <button
+                        className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
+                        onClick={() => dispatch(decrementQuantity(item.id))}
+                      >
+                        <span className="sr-only">{t("cart.decrease")}</span>-
+                      </button>
+                      <span className="w-6 text-center font-medium">
+                        {item.quantity}
+                      </span>
+                      <button
+                        className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
+                        onClick={() => dispatch(incrementQuantity(item.id))}
+                      >
+                        <span className="sr-only">{t("cart.increase")}</span>+
+                      </button>
+                    </div>
+                  </div>
+                  <button
+                    className="text-red-600 hover:text-red-700 hover:bg-red-50 active:bg-red-100 p-2 rounded-full transition-colors"
+                    onClick={() => dispatch(removeItem(item.id))}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="sticky bottom-0 bg-white border-t border-gray-100 shadow-lg p-4 space-y-4">
+            <div className="flex justify-between text-lg">
+              <span className="font-medium text-gray-700">
+                {t("cart.totalItems")}:
+              </span>
+              <span className="font-semibold text-gray-900">
+                {totalQuantity}
+              </span>
+            </div>
+            <div className="flex justify-between text-lg">
+              <span className="font-medium text-gray-700">
+                {t("cart.totalAmount")}:
+              </span>
+              <span className="font-bold text-gray-900">{totalAmount} ₺</span>
+            </div>
+
+            <div className="flex gap-4 pt-4">
+              <button
+                className="flex-1 px-6 py-3 bg-red-600 hover:bg-red-700 active:bg-red-600 text-white rounded-lg transition-colors duration-200"
+                onClick={() => dispatch(clearCart())}
+              >
+                {t("cart.clearCart")}
+              </button>
+              <button className="flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 active:bg-blue-600 text-white rounded-lg transition-colors duration-200">
+                {t("cart.checkout")}
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

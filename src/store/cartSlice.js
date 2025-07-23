@@ -31,6 +31,31 @@ const cartSlice = createSlice({
         state.items.splice(index, 1);
       }
     },
+    incrementQuantity(state, action) {
+      const id = action.payload;
+      const item = state.items.find((i) => i.id === id);
+      if (item) {
+        item.quantity += 1;
+        state.totalQuantity += 1;
+        state.totalAmount += item.price;
+      }
+    },
+    decrementQuantity(state, action) {
+      const id = action.payload;
+      const item = state.items.find((i) => i.id === id);
+      if (item) {
+        if (item.quantity > 1) {
+          item.quantity -= 1;
+          state.totalQuantity -= 1;
+          state.totalAmount -= item.price;
+        } else {
+          const index = state.items.findIndex((i) => i.id === id);
+          state.items.splice(index, 1);
+          state.totalQuantity -= 1;
+          state.totalAmount -= item.price;
+        }
+      }
+    },
     clearCart(state) {
       state.items = [];
       state.totalQuantity = 0;
