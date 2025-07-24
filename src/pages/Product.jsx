@@ -54,19 +54,15 @@ export default function Product() {
         <section>
           <h2 className="text-2xl font-semibold">Specifications</h2>
           <ul className="list-disc list-inside">
-            {Array.isArray(product.specs)
-              ? product.specs.map((spec, i) => (
-                  <li key={i} className="text-xl">
-                    {spec}
+            {product.specs && typeof product.specs === "object" && (
+              <ul className="list-disc list-inside">
+                {Object.entries(product.specs).map(([key, val]) => (
+                  <li key={key}>
+                    <strong>{key}</strong>: {val}
                   </li>
-                ))
-              : typeof product.specs === "string"
-                ? product.specs.split("\n").map((line, i) => (
-                    <li key={i} className="text-xl">
-                      {line}
-                    </li>
-                  ))
-                : null}
+                ))}
+              </ul>
+            )}
           </ul>
         </section>
       )}
