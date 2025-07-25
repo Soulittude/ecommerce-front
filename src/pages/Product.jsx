@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { useProduct } from "../hooks/queries";
 import { useDispatch } from "react-redux";
 import { addItem } from "../store/cartSlice";
+import ReviewList from "../components/ReviewList";
+import ReviewForm from "../components/ReviewForm";
 
 export default function Product() {
   const { slug } = useParams();
@@ -66,7 +68,12 @@ export default function Product() {
           </ul>
         </section>
       )}
-      {/*reviews & review form*/}
+
+      <section className="border-t pt-6">
+        <h2 className="text-2xl font-semibold mb-4">Reviews</h2>
+        <ReviewList slug={slug} />
+        <ReviewForm slug={slug} />
+      </section>
     </div>
   );
 }
