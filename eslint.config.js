@@ -1,29 +1,56 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import { defineConfig, globalIgnores } from 'eslint/config'
+import globals from "globals";
+import pluginJs from "@eslint/js";
+import pluginReact from "eslint-plugin-react";
+import pluginReactHooks from "eslint-plugin-react-hooks";
+import pluginReactRefresh from "eslint-plugin-react-refresh";
+import prettierConfig from "eslint-config-prettier";
 
-export default defineConfig([
-  globalIgnores(['dist']),
+export default [
+  { ignores: ["dist/"] },
+
+  pluginJs.configs.recommended,
+
   {
-    files: ['**/*.{js,jsx}'],
-    extends: [
-      js.configs.recommended,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
-    ],
+    files: ["**/*.{js,jsx}"],
+    plugins: {
+      react: pluginReact,
+      "react-hooks": pluginReactHooks,
+      "react-refresh": pluginReactRefresh,
+    },
     languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
       parserOptions: {
-        ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },
-        sourceType: 'module',
+      },
+      globals: {
+        ...globals.browser,
+      },
+    },
+    settings: {
+      react: {
+        version: "detect",
       },
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      ...pluginReact.configs.recommended.rules,
+      ...pluginReact.configs["jsx-runtime"].rules,
+      ...pluginReactHooks.configs.recommended.rules,
+      "react-refresh/only-export-components": [
+        "warn",
+        { allowConstantExport: true },
+      ],
+      "no-unused-vars": ["warn", { varsIgnorePattern: "^_" }],
+      "react/prop-types": "off",
     },
   },
-])
+
+  // This is the key fix for shadcn/ui components
+  {
+    files: ["src/components/ui/**/*.{js,jsx}", "components/ui/**/*.{js,jsx}"],
+    rules: {
+      "react-refresh/only-export-components": "off",
+    },
+  },
+
+  // Make sure this is the last one to disable style rules that conflict with Prettier
+  prettierConfig,
+];
