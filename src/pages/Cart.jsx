@@ -8,6 +8,13 @@ import {
   decrementQuantity,
 } from "../store/cartSlice";
 
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 export default function Cart() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -43,35 +50,41 @@ export default function Cart() {
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {items.map((item) => (
-              <div
+              <Card
                 key={item.id}
-                className="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200"
+                className="flex justify-between items-start p-4"
               >
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900">
-                      {item.name}
-                    </h3>
-                    <div className="flex items-center gap-3 mt-2">
-                      <button
-                        className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
-                        onClick={() => dispatch(decrementQuantity(item.id))}
-                      >
-                        <span className="sr-only">{t("cart.decrease")}</span>-
-                      </button>
-                      <span className="w-6 text-center font-medium">
-                        {item.quantity}
-                      </span>
-                      <button
-                        className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
-                        onClick={() => dispatch(incrementQuantity(item.id))}
-                      >
-                        <span className="sr-only">{t("cart.increase")}</span>+
-                      </button>
-                    </div>
-                  </div>
-                  <button
-                    className="text-red-600 hover:text-red-700 hover:bg-red-50 active:bg-red-100 p-2 rounded-full transition-colors"
+                <CardHeader className="p-0 flex-1">
+                  <h3 className="text-lg font-medium text-gray-900">
+                    {item.name}
+                  </h3>
+                </CardHeader>
+                <CardContent className="p-0 flex items-center gap-3">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="w-8 h-8 rounded-full"
+                    onClick={() => dispatch(decrementQuantity(item.id))}
+                  >
+                    -
+                  </Button>
+                  <span className="w-6 text-center font-medium">
+                    {item.quantity}
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="w-8 h-8 rounded-full"
+                    onClick={() => dispatch(incrementQuantity(item.id))}
+                  >
+                    +
+                  </Button>
+                </CardContent>
+                <CardFooter className="p-0 flex items-center">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-red-600 hover:text-red-700"
                     onClick={() => dispatch(removeItem(item.id))}
                   >
                     <svg
@@ -88,9 +101,9 @@ export default function Cart() {
                         d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                       />
                     </svg>
-                  </button>
-                </div>
-              </div>
+                  </Button>
+                </CardFooter>
+              </Card>
             ))}
           </div>
 
@@ -111,15 +124,16 @@ export default function Cart() {
             </div>
 
             <div className="flex gap-4 pt-4">
-              <button
-                className="flex-1 px-6 py-3 bg-red-600 hover:bg-red-700 active:bg-red-600 text-white rounded-lg transition-colors duration-200"
+              <Button
+                variant="destructive"
+                className="flex-1 px-6 py-3"
                 onClick={() => dispatch(clearCart())}
               >
                 {t("cart.clearCart")}
-              </button>
-              <button className="flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 active:bg-blue-600 text-white rounded-lg transition-colors duration-200">
+              </Button>
+              <Button variant="default" className="flex-1 px-6 py-3">
                 {t("cart.checkout")}
-              </button>
+              </Button>
             </div>
           </div>
         </div>
