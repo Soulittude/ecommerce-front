@@ -1,76 +1,120 @@
-import React, { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+
 import { useCreateReview } from "../hooks/queries";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+
+const reviewFormSchema = z.object({
+  rating: z.string({
+    required_error: "Please select a rating.",
+  }),
+  comment: z
+    .string()
+    .max(500, "Comment must be 500 characters or less.")
+    .optional(),
+});
 
 export default function ReviewForm({ slug }) {
-  const [rating, setRating] = useState(5);
-  const [comment, setComment] = useState("");
   const { mutateAsync, isPending, isError, error } = useCreateReview(slug);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const form = useForm({
+    resolver: zodResolver(reviewFormSchema),
+    defaultValues: {
+      rating: "5",
+      comment: "",
+    },
+  });
+
+  async function onSubmit(values) {
     try {
-      await mutateAsync({ rating, comment });
-      setComment("");
-      setRating(5);
-      // In a real app, you'd likely trigger a refetch of the reviews list here
+      await mutateAsync({
+        rating: Number(values.rating),
+        comment: values.comment,
+      });
+      form.reset();
     } catch (err) {
-      console.log(err);
+      // The isError and error state from the useCreateReview hook will display the error
+      console.error("Failed to submit review:", err);
     }
-  };
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 mt-8 border-t pt-6">
-      <h3 className="text-xl font-semibold mb-4">Leave a Review</h3>
-
-      {/* Rating */}
-      <div>
-        <label htmlFor="rating" className="block mb-1 font-medium">
-          Rating
-        </label>
-        <select
-          id="rating"
-          value={rating}
-          onChange={(e) => setRating(Number(e.target.value))}
-          className="w-full p-2 border rounded bg-white"
-          required
-        >
-          {[5, 4, 3, 2, 1].map((r) => (
-            <option key={r} value={r}>
-              {r} Star{r > 1 ? "s" : ""}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Comment */}
-      <div>
-        <label htmlFor="comment" className="block mb-1 font-medium">
-          Comment (optional)
-        </label>
-        <textarea
-          id="comment"
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          rows="4"
-          className="w-full p-2 border rounded"
-          placeholder="Share your thoughts about the product..."
-        />
-      </div>
-
-      {/* Submit Button */}
-      <button
-        type="submit"
-        disabled={isPending}
-        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded disabled:bg-blue-300 disabled:cursor-not-allowed transition-colors"
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-6 mt-8 border-t pt-6"
       >
-        {isPending ? "Submitting..." : "Submit Review"}
-      </button>
+        <h3 className="text-xl font-semibold">Leave a Review</h3>
 
-      {/* Error Message */}
-      {isError && (
-        <div className="text-red-500">
-          Error: {error.message || "Could not submit review."}
-        </div>
-      )}
-    </form>
+        <FormField
+          control={form.control}
+          name="rating"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Rating</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a rating" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {[5, 4, 3, 2, 1].map((r) => (
+                    <SelectItem key={r} value={String(r)}>
+                      {r} Star{r > 1 ? "s" : ""}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="comment"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Comment (optional)</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Share your thoughts about the product..."
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit" disabled={isPending}>
+          {isPending ? "Submitting..." : "Submit Review"}
+        </Button>
+
+        {isError && (
+          <p className="text-sm font-medium text-destructive">
+            {error.message || "An unexpected error occurred."}
+          </p>
+        )}
+      </form>
+    </Form>
   );
 }
