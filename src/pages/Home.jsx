@@ -42,7 +42,7 @@ export default function Home() {
 
   return (
     <div>
-      <main className="py-6 mx-auto max-w-screen-xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pl-8">
+      <main className="py-6 mx-auto max-w-screen-xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {renderContent()}
       </main>
     </div>
