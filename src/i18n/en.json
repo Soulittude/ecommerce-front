@@ -6,19 +6,20 @@
         "totalItems": "Total Items Count",
         "totalAmount": "Total Amount",
         "clearCart": "Clear Cart",
+        "checkout": "Checkout",
         "remove": "Remove"
     },
-    "product_c":{
+    "product_c": {
         "title": "Products",
-        "price":"Price: ${{price}}",
-        "addToCart":"Add To Cart"
+        "price": "Price: ${{price}}",
+        "addToCart": "Add To Cart"
     },
-    "product":{
+    "product": {
         "apple": "Apple",
         "banana": "Banana",
         "peach": "Peach"
     },
-    "nav":{
+    "nav": {
         "mystore": "My Store",
         "home": "Home",
         "cart": "Cart"

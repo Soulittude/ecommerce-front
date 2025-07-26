@@ -6,6 +6,7 @@
         "totalItems": "Toplam Ürün Sayısı",
         "totalAmount": "Toplam Fiyat",
         "clearCart": "Sepeti Temizle",
+        "checkout": "Ödeme",
         "remove": "Sil"
     },
     "product_c": {
