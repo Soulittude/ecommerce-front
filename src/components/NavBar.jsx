@@ -18,9 +18,9 @@ export default function NavBar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="px-4 flex h-14 justify-between">
-        <div className="mr-4 flex items-center">
-          <Link to="/" className="mr-6 font-bold">
+      <div className="px-4 max-w-screen-xl mx-auto flex h-14 justify-between">
+        <div className="flex items-center">
+          <Link to="/" className="font-bold">
             MyStore
           </Link>
           <NavigationMenu>
