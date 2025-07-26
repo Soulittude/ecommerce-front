@@ -18,7 +18,7 @@ export default function NavBar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container px-4 flex h-14">
+      <div className="px-4 flex h-14 justify-between">
         <div className="mr-4 flex items-center">
           <Link to="/" className="mr-6 font-bold">
             MyStore
@@ -52,8 +52,8 @@ export default function NavBar() {
           </NavigationMenu>
         </div>
 
-        <div className="flex flex-1 items-center justify-end space-x-2">
-          <Button asChild variant="ghost" size="icon">
+        <div className="flex flex-2 items-center justify-end space-x-2">
+          <Button asChild variant="ghost" size="icon" className="ml-auto">
             <Link to="/cart">
               <ShoppingCart className="size-4" />
               <span className="sr-only">Cart</span>
