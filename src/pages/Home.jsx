@@ -41,8 +41,10 @@ export default function Home() {
   };
 
   return (
-    <main className="container py-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      {renderContent()}
-    </main>
+    <div className="mx-auto max-w-screen-xl">
+      <main className="py-6 pl-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {renderContent()}
+      </main>
+    </div>
   );
 }

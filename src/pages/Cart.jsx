@@ -29,23 +29,27 @@ export default function Cart() {
       </h1>
 
       {totalQuantity === 0 ? (
-        <div className="flex flex-col items-center justify-center min-h-[300px] gap-4 animate-fade-in">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-24 w-24 text-gray-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-            />
-          </svg>
-          <p className="text-xl text-gray-500">{t("cart.empty")}</p>
-        </div>
+        <Card className="flex flex-col items-center justify-center min-h-[300px] gap-4 animate-fade-in p-6">
+          <CardHeader className="p-0">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-24 w-24 text-gray-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+              />
+            </svg>
+          </CardHeader>
+          <CardContent className="p-0">
+            <p className="text-xl text-gray-500">{t("cart.empty")}</p>
+          </CardContent>
+        </Card>
       ) : (
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
