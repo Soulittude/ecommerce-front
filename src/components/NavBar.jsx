@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   ShoppingCart,
   LogIn,
@@ -7,65 +7,47 @@ import {
   User,
   UserPlus,
   Heart,
+  Search,
 } from "lucide-react";
-import { useCategories } from "../hooks/queries";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/authSlice";
 
 export default function NavBar() {
-  const [searchParams] = useSearchParams();
-  const { data: categories = [], isLoading, isError } = useCategories();
-  const activeCategory = searchParams.get("category");
+  const [searchQuery, setSearchQuery] = useState("");
   const token = useSelector((state) => state.auth.token);
   const isAuthenticated = Boolean(token);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="max-w-screen-xl mx-auto flex h-14 justify-between">
-        <div className="flex items-center">
-          <Link to="/" className="font-bold">
-            MyStore
-          </Link>
-          <NavigationMenu>
-            <NavigationMenuList>
-              {isLoading && <NavigationMenuItem>Loading...</NavigationMenuItem>}
-              {isError && (
-                <NavigationMenuItem className="text-destructive">
-                  Error loading categories
-                </NavigationMenuItem>
-              )}
+      <div className="max-w-screen-xl mx-auto flex h-14 items-center">
+        <Link to="/" className="font-bold mr-4">
+          MyStore
+        </Link>
+        <form onSubmit={handleSearch} className="flex-1 mx-4">
+          <div className="relative max-w-3xl w-full">
+            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+            <Input
+              type="text"
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-8 w-full"
+            />
+          </div>
+        </form>
 
-              {!isLoading &&
-                !isError &&
-                categories.map((cat) => (
-                  <NavigationMenuItem key={cat.slug}>
-                    <Link
-                      to={`/?category=${cat.slug}`}
-                      className={cn(
-                        navigationMenuTriggerStyle(),
-                        activeCategory === cat.slug &&
-                          "bg-accent text-accent-foreground",
-                      )}
-                    >
-                      {cat.name}
-                    </Link>
-                  </NavigationMenuItem>
-                ))}
-            </NavigationMenuList>
-          </NavigationMenu>
-        </div>
-
-        <div className="flex items-center space-x-2 ml-auto">
+        <div className="flex items-center space-x-2">
           {isAuthenticated ? (
             <Button
               variant="outline"
