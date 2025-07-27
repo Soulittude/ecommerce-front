@@ -33,19 +33,6 @@ const AuthPage = () => {
   const register = useRegister();
   const login = useLogin();
 
-  // Placeholder functions for login
-  const loginUser = async (email, password) => {
-    // Simulate API call
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          user: { id: 1, name: "John Doe", email },
-          jwt: "dummy-jwt-token",
-        });
-      }, 500);
-    });
-  };
-
   const handleBack = () => {
     navigate("/");
   };
@@ -142,7 +129,9 @@ const AuthPage = () => {
           email,
           password,
         });
-        dispatch(setCredentials(credentials));
+        // Automatically log in the user after successful registration
+        const loginCredentials = await login.mutateAsync({ email, password });
+        dispatch(setCredentials(loginCredentials));
         navigate("/");
       } catch (error) {
         console.error("Registration failed:", error);

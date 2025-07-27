@@ -12,4 +12,19 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// Add a response interceptor to handle errors
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    // If the error is a response with a data object, use that
+    if (error.response && error.response.data) {
+      return Promise.reject(error.response.data);
+    }
+    // Otherwise, create a generic error object
+    return Promise.reject({
+      message: error.message || "An unknown error occurred",
+    });
+  },
+);
+
 export default api;

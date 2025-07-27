@@ -14,6 +14,10 @@ export const useRegister = () => {
       localStorage.setItem("jwt", data.jwt);
       qc.setQueryData(["currentUser"], data.user);
     },
+    onError: (error) => {
+      console.error("Registration failed:", error);
+      // Optionally, you can show a user-friendly error message here
+    },
   });
 };
 
@@ -24,6 +28,10 @@ export const useLogin = () => {
     onSuccess: (data) => {
       localStorage.setItem("jwt", data.jwt);
       qc.setQueryData(["currentUser"], data.user);
+    },
+    onError: (error) => {
+      console.error("Login failed:", error);
+      // Optionally, you can show a user-friendly error message here
     },
   });
 };
