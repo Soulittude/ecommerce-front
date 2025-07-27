@@ -1,27 +1,28 @@
 {
-    "welcome": "Welcome",
-    "cart": {
-        "title": "My Cart",
-        "empty": "Your cart is now empty",
-        "totalItems": "Total Items Count",
-        "totalAmount": "Total Amount",
-        "clearCart": "Clear Cart",
-        "checkout": "Checkout",
-        "remove": "Remove"
-    },
-    "product_c": {
-        "title": "Products",
-        "price": "Price: ${{price}}",
-        "addToCart": "Add To Cart"
-    },
-    "product": {
-        "apple": "Apple",
-        "banana": "Banana",
-        "peach": "Peach"
-    },
-    "nav": {
-        "mystore": "My Store",
-        "home": "Home",
-        "cart": "Cart"
-    }
+  "welcome": "Welcome",
+  "cart": {
+    "title": "My Cart",
+    "empty": "Your cart is now empty",
+    "totalItems": "Total Items Count",
+    "totalAmount": "Total Amount",
+    "clearCart": "Clear Cart",
+    "checkout": "Checkout",
+    "remove": "Remove",
+    "loading": "Loading"
+  },
+  "product_c": {
+    "title": "Products",
+    "price": "Price: ${{price}}",
+    "addToCart": "Add To Cart"
+  },
+  "product": {
+    "apple": "Apple",
+    "banana": "Banana",
+    "peach": "Peach"
+  },
+  "nav": {
+    "mystore": "My Store",
+    "home": "Home",
+    "cart": "Cart"
+  }
 }

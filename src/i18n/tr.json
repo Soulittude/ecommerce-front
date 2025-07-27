@@ -1,27 +1,28 @@
 {
-    "welcome": "Hoşgeldiniz",
-    "cart": {
-        "title": "Sepetim",
-        "empty": "Şuan sepetiniz boş",
-        "totalItems": "Toplam Ürün Sayısı",
-        "totalAmount": "Toplam Fiyat",
-        "clearCart": "Sepeti Temizle",
-        "checkout": "Ödeme",
-        "remove": "Sil"
-    },
-    "product_c": {
-        "title": "Ürünler",
-        "price": "Fiyat: ${{price}}",
-        "addToCart": "Sepete Ekle"
-    },
-    "product": {
-        "apple": "Elma",
-        "banana": "Muz",
-        "peach": "Şeftali"
-    },
-    "nav": {
-        "mystore": "Mağazam",
-        "home": "Anasayfa",
-        "cart": "Sepet"
-    }
+  "welcome": "Hoşgeldiniz",
+  "cart": {
+    "title": "Sepetim",
+    "empty": "Şuan sepetiniz boş",
+    "totalItems": "Toplam Ürün Sayısı",
+    "totalAmount": "Toplam Fiyat",
+    "clearCart": "Sepeti Temizle",
+    "checkout": "Ödeme",
+    "remove": "Sil",
+    "loading": "Yükleniyor"
+  },
+  "product_c": {
+    "title": "Ürünler",
+    "price": "Fiyat: ${{price}}",
+    "addToCart": "Sepete Ekle"
+  },
+  "product": {
+    "apple": "Elma",
+    "banana": "Muz",
+    "peach": "Şeftali"
+  },
+  "nav": {
+    "mystore": "Mağazam",
+    "home": "Anasayfa",
+    "cart": "Sepet"
+  }
 }

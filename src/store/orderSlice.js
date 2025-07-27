@@ -6,10 +6,17 @@ import { clearCart } from "./cartSlice";
 export const checkout = createAsyncThunk(
   "order/checkout",
   async (orderData, thunkAPI) => {
-    const response = await createOrderApi(orderData);
-    // Clear cart after successful order
-    thunkAPI.dispatch(clearCart());
-    return response;
+    try {
+      const response = await createOrderApi(orderData);
+      // Clear cart after successful order
+      thunkAPI.dispatch(clearCart());
+      return response;
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        throw new Error("Unauthorized: Please log in again.");
+      }
+      throw error;
+    }
   },
 );
 

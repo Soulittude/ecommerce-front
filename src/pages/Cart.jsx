@@ -7,6 +7,8 @@ import {
   incrementQuantity,
   decrementQuantity,
 } from "../store/cartSlice";
+import { checkout } from "../store/orderSlice";
+import { useNavigate } from "react-router-dom";
 
 import {
   Card,
@@ -18,9 +20,30 @@ import { Button } from "@/components/ui/button";
 export default function Cart() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { items, totalQuantity, totalAmount } = useSelector(
     (state) => state.cart,
   );
+  const { status } = useSelector((s) => s.order);
+  const token = useSelector((state) => state.auth.token);
+
+  const handleCheckout = async () => {
+    if (!token) {
+      alert("Please log in to proceed with checkout.");
+      return;
+    }
+    try {
+      const orderData = { items };
+      const result = await dispatch(checkout(orderData)).unwrap();
+      navigate("/order-confirmation");
+    } catch (error) {
+      if (error.message.includes("401")) {
+        alert("Your session has expired. Please log in again.");
+      } else {
+        alert("An error occurred during checkout. Please try again.");
+      }
+    }
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-4 md:p-6 pb-16 md:pb-6">
@@ -135,8 +158,13 @@ export default function Cart() {
               >
                 {t("cart.clearCart")}
               </Button>
-              <Button variant="default" className="flex-1 px-6 py-3">
-                {t("cart.checkout")}
+              <Button
+                onClick={handleCheckout}
+                disabled={status === "loading"}
+                variant="default"
+                className="flex-1 px-6 py-3"
+              >
+                {status === "loading" ? t("cart.loading") : t("cart.checkout")}
               </Button>
             </div>
           </div>
