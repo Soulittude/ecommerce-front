@@ -15,6 +15,7 @@ import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "@/store/authSlice.js";
+import { useRegister, useLogin } from "@/hooks/queries.js";
 
 const AuthPage = () => {
   const [activeForm, setActiveForm] = useState("login");
@@ -28,25 +29,17 @@ const AuthPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // Placeholder functions for login and registration
+  // Call hooks at the top level
+  const register = useRegister();
+  const login = useLogin();
+
+  // Placeholder functions for login
   const loginUser = async (email, password) => {
     // Simulate API call
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({
           user: { id: 1, name: "John Doe", email },
-          jwt: "dummy-jwt-token",
-        });
-      }, 500);
-    });
-  };
-
-  const registerUser = async (name, email, password) => {
-    // Simulate API call
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          user: { id: 2, name, email },
           jwt: "dummy-jwt-token",
         });
       }, 500);
@@ -92,12 +85,16 @@ const AuthPage = () => {
 
     if (Object.keys(errors).length === 0) {
       try {
-        const credentials = await loginUser(email, password);
+        const credentials = await login.mutateAsync({ email, password });
         dispatch(setCredentials(credentials));
         navigate("/");
       } catch (error) {
         console.error("Login failed:", error);
-        setFormErrors({ general: "Login failed. Please try again." });
+        const errorMessage =
+          error.response?.data?.message ||
+          error.message ||
+          "Login failed. Please try again.";
+        setFormErrors({ general: errorMessage });
       }
     }
   };
@@ -131,12 +128,20 @@ const AuthPage = () => {
 
     if (Object.keys(errors).length === 0) {
       try {
-        const credentials = await registerUser(name, email, password);
+        const credentials = await register.mutateAsync({
+          name,
+          email,
+          password,
+        });
         dispatch(setCredentials(credentials));
         navigate("/");
       } catch (error) {
         console.error("Registration failed:", error);
-        setFormErrors({ general: "Registration failed. Please try again." });
+        const errorMessage =
+          error.response?.data?.message ||
+          error.message ||
+          "Registration failed. Please try again.";
+        setFormErrors({ general: errorMessage });
       }
     }
   };
