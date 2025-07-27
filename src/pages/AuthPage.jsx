@@ -50,6 +50,12 @@ const AuthPage = () => {
     navigate("/");
   };
 
+  const validateName = (name) => {
+    if (name.length < 6) {
+      return "Name must be at least 6 characters";
+    }
+  };
+
   const validatePassword = (password) => {
     const minLength = 10;
     const hasUpperCase = /[A-Z]/.test(password);
@@ -116,6 +122,9 @@ const AuthPage = () => {
     if (!isAgreementsAccepted)
       errors.agreements = "You must accept the agreements";
     if (!isCaptchaVerified) errors.captcha = "Please verify the captcha";
+
+    const nameError = validateName(name);
+    if (nameError) errors.name = nameError;
 
     const passwordError = validatePassword(password);
     if (passwordError) errors.password = passwordError;
