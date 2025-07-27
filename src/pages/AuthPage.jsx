@@ -14,7 +14,7 @@ import {
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setCredentials } from "src/store/authSlice.js";
+import { setCredentials } from "@/store/authSlice.js";
 
 const AuthPage = () => {
   const [activeForm, setActiveForm] = useState("login");
@@ -26,6 +26,32 @@ const AuthPage = () => {
   const [isAgreementsAccepted, setIsAgreementsAccepted] = useState(false);
   const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // Placeholder functions for login and registration
+  const loginUser = async (email, password) => {
+    // Simulate API call
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          user: { id: 1, name: "John Doe", email },
+          jwt: "dummy-jwt-token",
+        });
+      }, 500);
+    });
+  };
+
+  const registerUser = async (name, email, password) => {
+    // Simulate API call
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          user: { id: 2, name, email },
+          jwt: "dummy-jwt-token",
+        });
+      }, 500);
+    });
+  };
 
   const handleBack = () => {
     navigate("/");
@@ -52,7 +78,7 @@ const AuthPage = () => {
     return "";
   };
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form["login-email"].value;
@@ -65,12 +91,18 @@ const AuthPage = () => {
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      // Proceed with login
-      console.log("Login successful");
+      try {
+        const credentials = await loginUser(email, password);
+        dispatch(setCredentials(credentials));
+        navigate("/");
+      } catch (error) {
+        console.error("Login failed:", error);
+        setFormErrors({ general: "Login failed. Please try again." });
+      }
     }
   };
 
-  const handleRegisterSubmit = (e) => {
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
     const name = form["register-name"].value;
@@ -98,8 +130,14 @@ const AuthPage = () => {
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      // Proceed with registration
-      console.log("Registration successful");
+      try {
+        const credentials = await registerUser(name, email, password);
+        dispatch(setCredentials(credentials));
+        navigate("/");
+      } catch (error) {
+        console.error("Registration failed:", error);
+        setFormErrors({ general: "Registration failed. Please try again." });
+      }
     }
   };
 
@@ -168,6 +206,15 @@ const AuthPage = () => {
               <div className="flex items-center space-x-2">
                 <Checkbox id="login-remember" />
                 <Label htmlFor="login-remember">Remember me</Label>
+              </div>
+              <div className="text-right mb-4">
+                <button
+                  type="button"
+                  onClick={() => console.log("Forgot Password clicked")}
+                  className="text-sm text-primary underline"
+                >
+                  Forgot Password?
+                </button>
               </div>
               <Button type="submit" className="w-full">
                 Login
@@ -349,7 +396,7 @@ const AuthPage = () => {
                     checked={isCaptchaVerified}
                     onCheckedChange={setIsCaptchaVerified}
                   />
-                  <Label htmlFor="register-captcha">I'm not a robot</Label>
+                  <Label htmlFor="register-captcha">I&apos;m not a robot</Label>
                 </div>
                 {formErrors.captcha && (
                   <p className="text-red-500 text-sm">{formErrors.captcha}</p>
@@ -362,6 +409,31 @@ const AuthPage = () => {
             </form>
           </TabsContent>
         </Tabs>
+
+        {/* Social Login Buttons */}
+        <div className="mt-6 space-y-3">
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={() => console.log("Google login clicked")}
+          >
+            Continue with Google
+          </Button>
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={() => console.log("Facebook login clicked")}
+          >
+            Continue with Facebook
+          </Button>
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={() => console.log("Apple login clicked")}
+          >
+            Continue with Apple
+          </Button>
+        </div>
       </div>
     </div>
   );

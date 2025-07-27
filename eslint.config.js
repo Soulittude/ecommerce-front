@@ -40,6 +40,7 @@ export default [
       ],
       "no-unused-vars": ["warn", { varsIgnorePattern: "^_" }],
       "react/prop-types": "off",
+      "react/no-unescaped-entities": "off",
     },
   },
 
