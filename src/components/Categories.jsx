@@ -14,10 +14,6 @@ export default function Categories({ onCategorySelect }) {
   const { data: categories = [], isLoading, isError } = useCategories();
   const activeCategory = searchParams.get("category");
 
-  const handleCategoryClick = (categorySlug) => {
-    onCategorySelect(categorySlug);
-  };
-
   if (isLoading) {
     return <div>Loading categories...</div>;
   }
