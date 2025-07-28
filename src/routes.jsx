@@ -5,6 +5,7 @@ import NavBar from "./components/NavBar.jsx";
 import AuthPage from "./pages/AuthPage.jsx";
 import Product from "./pages/Product.jsx";
 import OrderConfirmation from "./pages/OrderConfirmation.jsx";
+import SearchPage from "./pages/SearchPage.jsx";
 
 export default function AppRoutes() {
   return (
@@ -17,6 +18,7 @@ export default function AppRoutes() {
         <Route path="/products/:slug" element={<Product />} />
         <Route path="/order-confirmation" element={<OrderConfirmation />} />
         <Route path="/auth" element={<AuthPage />} />
+        <Route path="/search" element={<SearchPage />} />
       </Routes>
     </BrowserRouter>
   );
