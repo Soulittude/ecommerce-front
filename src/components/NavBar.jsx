@@ -15,7 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/authSlice";
 import Categories from "./Categories";
 
-export default function NavBar({ onCategorySelect }) {
+export default function NavBar() {
   const [searchQuery, setSearchQuery] = useState("");
   const token = useSelector((state) => state.auth.token);
   const isAuthenticated = Boolean(token);
@@ -123,7 +123,7 @@ export default function NavBar({ onCategorySelect }) {
       <div className="max-w-screen-xl mx-auto h-12 flex items-center justify-center border-b">
         {" "}
         {/* Centered categories with bottom border */}
-        <Categories onCategorySelect={onCategorySelect} />
+        <Categories />
       </div>
     </header>
   );

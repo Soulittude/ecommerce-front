@@ -9,7 +9,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 
-export default function Categories({ onCategorySelect }) {
+export default function Categories() {
   const [searchParams] = useSearchParams();
   const { data: categories = [], isLoading, isError } = useCategories();
   const activeCategory = searchParams.get("category");

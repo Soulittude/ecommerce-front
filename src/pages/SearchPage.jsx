@@ -58,8 +58,7 @@ export default function SearchPage() {
     <div>
       <h1 className="text-2xl font-bold mb-6">Search Results for "{query}"</h1>
       <main className="py-6 mx-auto max-w-screen-xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        <Categories onCategorySelect={handleCategorySelect} />{" "}
-        {/* Pass handler and state */}
+        <Categories /> {/* Pass handler and state */}
         {renderContent()}
       </main>
     </div>
