@@ -13,8 +13,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/authSlice";
+import Categories from "./Categories";
 
-export default function NavBar() {
+export default function NavBar({ onCategorySelect }) {
   const [searchQuery, setSearchQuery] = useState("");
   const token = useSelector((state) => state.auth.token);
   const isAuthenticated = Boolean(token);
@@ -38,23 +39,29 @@ export default function NavBar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="max-w-screen-xl mx-auto flex h-14 items-center">
-        <Link to="/" className="font-bold mr-4">
-          MyStore
-        </Link>
-        <form onSubmit={handleSearch} className="flex-1 mx-4">
-          <div className="relative max-w-3xl w-full">
-            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <Input
-              type="text"
-              placeholder="Search products..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-8 w-full"
-            />
-          </div>
-        </form>
-
+      {/* Main header row */}
+      <div className="max-w-screen-xl mx-auto flex h-14 items-center justify-between">
+        {" "}
+        {/* Added justify-between to space out logo, search, and icons */}
+        <div className="flex items-center">
+          <Link to="/" className="font-bold mr-4">
+            MyStore
+          </Link>
+          <form onSubmit={handleSearch} className="flex-1 max-w-lg mx-4">
+            {" "}
+            {/* Adjusted max-width for search */}
+            <div className="relative">
+              <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+              <Input
+                type="text"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-8 w-full"
+              />
+            </div>
+          </form>
+        </div>
         <div className="flex items-center space-x-2">
           {isAuthenticated ? (
             <Button
@@ -110,6 +117,13 @@ export default function NavBar() {
             </Link>
           </Button>
         </div>
+      </div>
+
+      {/* Categories row */}
+      <div className="max-w-screen-xl mx-auto h-12 flex items-center justify-center border-b">
+        {" "}
+        {/* Centered categories with bottom border */}
+        <Categories onCategorySelect={onCategorySelect} />
       </div>
     </header>
   );
