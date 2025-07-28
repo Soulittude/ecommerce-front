@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   ShoppingCart,
   LogIn,
@@ -20,6 +20,7 @@ export default function NavBar() {
   const isAuthenticated = Boolean(token);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -27,6 +28,13 @@ export default function NavBar() {
       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
+
+  // Reset search input when navigating away from search page
+  useEffect(() => {
+    if (!location.pathname.startsWith("/search")) {
+      setSearchQuery("");
+    }
+  }, [location]);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

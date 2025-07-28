@@ -1,34 +1,59 @@
 import React from "react";
 import { useSearchParams } from "react-router-dom";
+import { AlertCircle } from "lucide-react";
 import { useProducts } from "../hooks/queries";
 import { ProductCard, ProductCardSkeleton } from "../components/ProductCard";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function SearchPage() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q") || "";
 
-  const { data: products, isLoading, error } = useProducts({ search: query });
+  const {
+    data: products = [],
+    isLoading,
+    isError,
+  } = useProducts({ search: query });
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  const renderContent = () => {
+    if (isLoading) {
+      return Array.from({ length: 8 }).map((_, index) => (
+        <ProductCardSkeleton key={index} />
+      ));
+    }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
+    if (isError) {
+      return (
+        <Alert variant="destructive" className="sm:col-span-2 lg:col-span-4">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>
+            There was a problem loading the search results. Please try again
+            later.
+          </AlertDescription>
+        </Alert>
+      );
+    }
+
+    if (products.length === 0) {
+      return (
+        <div className="sm:col-span-2 lg:col-span-4">
+          <p>No products found for "{query}".</p>
+        </div>
+      );
+    }
+
+    return products.map((product) => (
+      <ProductCard key={product.id} product={product} />
+    ));
+  };
 
   return (
     <div>
-      <h1>Search Results for "{query}"</h1>
-      {products && products.length > 0 ? (
-        <div className="product-grid">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      ) : (
-        <p>No products found for "{query}".</p>
-      )}
+      <h1 className="text-2xl font-bold mb-6">Search Results for "{query}"</h1>
+      <main className="py-6 mx-auto max-w-screen-xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {renderContent()}
+      </main>
     </div>
   );
 }
