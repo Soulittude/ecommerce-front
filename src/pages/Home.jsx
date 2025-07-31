@@ -1,4 +1,3 @@
-import React from "react";
 import { useSearchParams } from "react-router-dom";
 import { AlertCircle } from "lucide-react";
 
@@ -19,20 +18,19 @@ export default function Home() {
 
   const carouselItems = [
     {
-      imageUrl:
-        "https://via.placeholder.com/1200x400/FF0000/FFFFFF?text=Sale+1",
+      imageUrl: "https://i.postimg.cc/tgCLc6d5/resim-2025-07-31-041647902.png",
       altText: "Sale 1",
       link: "/products?category=sale",
     },
     {
       imageUrl:
-        "https://via.placeholder.com/1200x400/00FF00/FFFFFF?text=New+Arrivals",
+        "https://i.postimg.cc/G2Rsrc2q/horizontal-sale-banner-template-23-2148897327.avif",
       altText: "New Arrivals",
       link: "/products?category=new",
     },
     {
       imageUrl:
-        "https://via.placeholder.com/1200x400/0000FF/FFFFFF?text=Best+Sellers",
+        "https://i.postimg.cc/FszkhCr5/flat-horizontal-banner-template-black-friday-sales-23-2150898106.avif",
       altText: "Best Sellers",
       link: "/products?category=best-sellers",
     },
