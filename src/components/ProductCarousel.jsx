@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/carousel";
 import { ProductCard } from "@/components/ProductCard";
 
-export function ProductCarousel({ title, products }) {
+export default function ProductCarousel({ title, products }) {
   if (!products || products.length === 0) {
     return null;
   }
@@ -20,6 +20,8 @@ export function ProductCarousel({ title, products }) {
         opts={{
           align: "start",
           loop: true,
+          perView: 8,
+          slidesToScroll: 4,
         }}
         className="w-full"
       >
@@ -27,9 +29,9 @@ export function ProductCarousel({ title, products }) {
           {products.map((product) => (
             <CarouselItem
               key={product.id}
-              className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
+              className="md:basis-1/4 lg:basis-1/8"
             >
-              <div className="p-1">
+              <div className="p-2">
                 <ProductCard product={product} />
               </div>
             </CarouselItem>

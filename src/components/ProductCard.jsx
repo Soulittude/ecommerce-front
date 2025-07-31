@@ -38,46 +38,54 @@ export function ProductCard({ product }) {
   };
 
   return (
-    <Card className="flex flex-col overflow-hidden rounded-lg">
+    <Card className="w-40 flex flex-col overflow-hidden rounded-lg">
       <CardHeader className="p-0 relative">
         {product.images && product.images.length > 0 && (
           <Link to={`/products/${product.slug}`}>
             <img
               src={product.images[0]}
               alt={product.name}
-              className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+              className="w-full h-32 object-cover transition-transform duration-300 hover:scale-105"
             />
           </Link>
         )}
       </CardHeader>
-      <CardContent className="p-4 flex-grow">
-        <Link to={`/products/${product.slug}`}>
-          <CardTitle className="text-lg font-semibold leading-tight hover:underline">
-            {product.name}
-          </CardTitle>
-        </Link>
-        <p className="text-muted-foreground mt-2">
-          {formatPrice(product.price)}
-        </p>
-      </CardContent>
-      <CardFooter className="p-4 pt-0">
-        <Button className="w-full" onClick={handleAddToCart}>
-          <ShoppingCart className="mr-2 size-4" /> Add to Cart
-        </Button>
-      </CardFooter>
+      <div className="flex flex-col flex-grow p-2">
+        <CardContent className="p-0 flex-grow">
+          <Link to={`/products/${product.slug}`}>
+            <CardTitle className="text-sm font-semibold leading-tight hover:underline h-10 overflow-hidden">
+              {product.name}
+            </CardTitle>
+          </Link>
+          <p className="text-sm text-muted-foreground mt-1">
+            {formatPrice(product.price)}
+          </p>
+        </CardContent>
+        <CardFooter className="p-0 pt-2">
+          <Button
+            size="sm"
+            className="w-full text-xs"
+            onClick={handleAddToCart}
+          >
+            <ShoppingCart className="mr-1 size-3" /> Add to Cart
+          </Button>
+        </CardFooter>
+      </div>
     </Card>
   );
 }
 
 export function ProductCardSkeleton() {
   return (
-    <div className="flex flex-col space-y-3">
-      <Skeleton className="h-48 w-full rounded-lg" />
-      <div className="space-y-2">
-        <Skeleton className="h-4 w-4/5" />
-        <Skeleton className="h-4 w-1/4" />
+    <div className="w-40 space-y-2">
+      <Skeleton className="h-32 w-full rounded-lg" />
+      <div className="p-2">
+        <Skeleton className="h-4 w-full mb-2" />
+        <Skeleton className="h-3 w-1/2" />
       </div>
-      <Skeleton className="h-10 w-full" />
+      <div className="p-2 pt-0">
+        <Skeleton className="h-9 w-full" />
+      </div>
     </div>
   );
 }

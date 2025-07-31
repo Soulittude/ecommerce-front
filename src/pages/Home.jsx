@@ -1,20 +1,11 @@
-import { useSearchParams } from "react-router-dom";
-import { AlertCircle } from "lucide-react";
-
 import { useProducts } from "../hooks/queries";
-import { ProductCard, ProductCardSkeleton } from "../components/ProductCard";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import ProductCarousel from "../components/ProductCarousel";
+import Banner from "../components/Banner";
+import BannerLine from "../components/BannerLine";
 import { HeroCarousel } from "../components/HeroCarousel";
 
 export default function Home() {
-  const [searchParams] = useSearchParams();
-  const params = {
-    category: searchParams.get("category") || undefined,
-    page: Number(searchParams.get("page") || 1),
-    pageSize: 8,
-  };
-
-  const { data: products = [], isLoading, isError } = useProducts(params);
+  const { data: products = [], isLoading, isError } = useProducts();
 
   const carouselItems = [
     {
@@ -36,38 +27,52 @@ export default function Home() {
     },
   ];
 
-  const renderContent = () => {
-    if (isLoading) {
-      return Array.from({ length: params.pageSize }).map((_, index) => (
-        <ProductCardSkeleton key={index} />
-      ));
-    }
-
-    if (isError) {
-      return (
-        <Alert variant="destructive" className="sm:col-span-2 lg:col-span-4">
-          <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Error</AlertTitle>
-          <AlertDescription>
-            There was a problem loading the products. Please try again later.
-          </AlertDescription>
-        </Alert>
-      );
-    }
-
-    return products.map((product) => (
-      <ProductCard key={product.id} product={product} />
-    ));
-  };
-
   return (
     <main className="py-6 mx-auto max-w-screen-xl">
       <div className="mb-8 w-3/5 mx-auto">
         <HeroCarousel items={carouselItems} />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {renderContent()}
-      </div>
+      <ProductCarousel
+        title="Featured Products"
+        products={products}
+        isLoading={isLoading}
+        isError={isError}
+      />
+      <BannerLine>
+        <Banner
+          imageUrl="https://via.placeholder.com/600x200"
+          altText="Banner 1"
+          link="#"
+        />
+        <Banner
+          imageUrl="https://via.placeholder.com/600x200"
+          altText="Banner 2"
+          link="#"
+        />
+      </BannerLine>
+      <ProductCarousel
+        title="New Arrivals"
+        products={products}
+        isLoading={isLoading}
+        isError={isError}
+      />
+      <BannerLine>
+        <Banner
+          imageUrl="https://via.placeholder.com/600x200"
+          altText="Banner 3"
+          link="#"
+        />
+        <Banner
+          imageUrl="https://via.placeholder.com/600x200"
+          altText="Banner 4"
+          link="#"
+        />
+        <Banner
+          imageUrl="https://via.placeholder.com/600x200"
+          altText="Banner 5"
+          link="#"
+        />
+      </BannerLine>
     </main>
   );
 }
