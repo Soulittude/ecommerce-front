@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useProduct } from "../hooks/queries";
+import { useSeoData } from "../hooks/useSeoData";
+import { useSeo } from "../context/SeoContext";
 import { useDispatch } from "react-redux";
 import { addItem } from "../store/cartSlice";
 import ReviewList from "../components/ReviewList";
@@ -20,6 +22,19 @@ export default function Product() {
   const { slug } = useParams();
   const { data: product, isLoading, isError } = useProduct(slug);
   const dispatch = useDispatch();
+  const { setSeo } = useSeo();
+  const seoData = useSeoData("product", slug);
+
+  useEffect(() => {
+    if (product?.name) {
+      setSeo({
+        title: `${product.name} | E-Commerce`,
+        description: product.description,
+      });
+    } else if (seoData) {
+      setSeo(seoData);
+    }
+  }, [product, seoData, setSeo, slug]);
 
   if (isLoading)
     return (

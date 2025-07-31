@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
+import { useSeoData } from "../hooks/useSeoData";
+import { useSeo } from "../context/SeoContext";
 import {
   removeItem,
   clearCart,
@@ -21,6 +23,14 @@ export default function Cart() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { setSeo } = useSeo();
+  const seoData = useSeoData("cart");
+
+  useEffect(() => {
+    if (seoData) {
+      setSeo(seoData);
+    }
+  }, [seoData, setSeo]);
   const { items, totalQuantity, totalAmount } = useSelector(
     (state) => state.cart,
   );

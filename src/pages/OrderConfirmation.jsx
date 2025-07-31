@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useSeoData } from "../hooks/useSeoData";
+import { useSeo } from "../context/SeoContext";
 
 export default function OrderConfirmation() {
   const { currentOrder } = useSelector((s) => s.order);
+  const { setSeo } = useSeo();
+  const seoData = useSeoData("order-confirmation");
+
+  useEffect(() => {
+    if (seoData) {
+      setSeo(seoData);
+    }
+  }, [seoData, setSeo]);
 
   if (!currentOrder) {
     return (

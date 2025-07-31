@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { AlertCircle } from "lucide-react";
+import { useSeoData } from "../hooks/useSeoData";
+import { useSeo } from "../context/SeoContext";
 import { useProducts } from "../hooks/queries";
 import { ProductCard, ProductCardSkeleton } from "../components/ProductCard";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -10,6 +12,14 @@ export default function SearchPage() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q") || "";
   const [selectedCategory, setSelectedCategory] = useState(null); // State for selected category
+  const { setSeo } = useSeo();
+  const seoData = useSeoData("search", query);
+
+  useEffect(() => {
+    if (seoData) {
+      setSeo(seoData);
+    }
+  }, [query, seoData, setSeo]);
 
   const handleCategorySelect = (categorySlug) => {
     setSelectedCategory(categorySlug);

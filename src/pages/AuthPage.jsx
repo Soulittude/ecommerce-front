@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -16,8 +16,18 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "@/store/authSlice.js";
 import { useRegister, useLogin } from "@/hooks/queries.js";
+import { useSeoData } from "@/hooks/useSeoData.js";
+import { useSeo } from "@/context/SeoContext.jsx";
 
 const AuthPage = () => {
+  const { setSeo } = useSeo();
+  const seoData = useSeoData("auth");
+
+  useEffect(() => {
+    if (seoData) {
+      setSeo(seoData);
+    }
+  }, [seoData, setSeo]);
   const [activeForm, setActiveForm] = useState("login");
   const [activeAgreement, setActiveAgreement] = useState("privacy");
   const [showLoginPassword, setShowLoginPassword] = useState(false);
