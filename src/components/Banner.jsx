@@ -1,11 +1,19 @@
 import React from "react";
 
-const Banner = ({ src, alt, className }) => {
-  return (
-    <div className={className}>
-      <img src={src} alt={alt} />
-    </div>
+const Banner = ({ imageUrl, altText, className, link }) => {
+  const content = (
+    <img src={imageUrl} alt={altText} className="w-full h-full object-cover" />
   );
+
+  if (link) {
+    return (
+      <a href={link} className={`flex-1 ${className}`}>
+        {content}
+      </a>
+    );
+  }
+
+  return <div className={`flex-1 ${className}`}>{content}</div>;
 };
 
 export default Banner;

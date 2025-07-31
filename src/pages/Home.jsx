@@ -3,8 +3,20 @@ import ProductCarousel from "../components/ProductCarousel";
 import Banner from "../components/Banner";
 import BannerLine from "../components/BannerLine";
 import { HeroCarousel } from "../components/HeroCarousel";
+import { useSeo } from "../context/SeoContext";
+import { useEffect } from "react";
+import { useSeoData } from "../hooks/useSeoData.js";
 
 export default function Home() {
+  const { setSeo } = useSeo();
+  const seoData = useSeoData("home");
+
+  useEffect(() => {
+    if (seoData) {
+      setSeo(seoData);
+    }
+  }, [seoData, setSeo]);
+
   const { data: products = [], isLoading, isError } = useProducts();
 
   const carouselItems = [
@@ -27,52 +39,74 @@ export default function Home() {
     },
   ];
 
+  const bannerLines = [
+    [
+      {
+        imageUrl:
+          "https://i.postimg.cc/tgCLc6d5/resim-2025-07-31-041647902.png",
+        altText: "Banner 1",
+        link: "#",
+      },
+      {
+        imageUrl:
+          "https://i.postimg.cc/FszkhCr5/flat-horizontal-banner-template-black-friday-sales-23-2150898106.avif",
+        altText: "Banner 2",
+        link: "#",
+      },
+    ],
+    [
+      {
+        imageUrl:
+          "https://img.freepik.com/free-vector/flat-horizontal-sale-banner-template-with-photo_23-2149000923.jpg",
+        altText: "Banner 3",
+        link: "#",
+      },
+      {
+        imageUrl:
+          "https://www.shutterstock.com/shutterstock/photos/1350294860/display_1500/stock-vector-example-of-a-sales-sign-banner-with-a-discount-big-sale-banner-special-offer-1350294860.jpg",
+        altText: "Banner 4",
+        link: "#",
+      },
+      {
+        imageUrl:
+          "https://images.examples.com/wp-content/uploads/2018/05/Abstract-Mobile-Sale-Banner-Example.jpg",
+        altText: "Banner 5",
+        link: "#",
+      },
+    ],
+  ];
+
   return (
-    <main className="py-6 mx-auto max-w-screen-xl">
+    <div className="py-6 mx-auto max-w-screen-xl">
       <div className="mb-8 w-3/5 mx-auto">
         <HeroCarousel items={carouselItems} />
       </div>
-      <ProductCarousel
-        title="Featured Products"
-        products={products}
-        isLoading={isLoading}
-        isError={isError}
-      />
-      <BannerLine>
-        <Banner
-          imageUrl="https://via.placeholder.com/600x200"
-          altText="Banner 1"
-          link="#"
+      <div className="mb-8">
+        <ProductCarousel
+          title="Featured Products"
+          products={products}
+          isLoading={isLoading}
+          isError={isError}
         />
-        <Banner
-          imageUrl="https://via.placeholder.com/600x200"
-          altText="Banner 2"
-          link="#"
-        />
+      </div>
+      <BannerLine className="h-48 mb-8">
+        {bannerLines[0].map((banner, index) => (
+          <Banner key={index} {...banner} />
+        ))}
       </BannerLine>
-      <ProductCarousel
-        title="New Arrivals"
-        products={products}
-        isLoading={isLoading}
-        isError={isError}
-      />
-      <BannerLine>
-        <Banner
-          imageUrl="https://via.placeholder.com/600x200"
-          altText="Banner 3"
-          link="#"
+      <div className="mb-8">
+        <ProductCarousel
+          title="New Arrivals"
+          products={products}
+          isLoading={isLoading}
+          isError={isError}
         />
-        <Banner
-          imageUrl="https://via.placeholder.com/600x200"
-          altText="Banner 4"
-          link="#"
-        />
-        <Banner
-          imageUrl="https://via.placeholder.com/600x200"
-          altText="Banner 5"
-          link="#"
-        />
+      </div>
+      <BannerLine className="h-48">
+        {bannerLines[1].map((banner, index) => (
+          <Banner key={index} {...banner} />
+        ))}
       </BannerLine>
-    </main>
+    </div>
   );
 }

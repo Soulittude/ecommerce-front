@@ -1,0 +1,36 @@
+{
+    "home": {
+        "title": "Your Premier E-Commerce Destination",
+        "description": "Discover a wide range of products, from electronics to fashion. We have everything you need at unbeatable prices. Shop now and enjoy fast shipping and excellent customer service."
+    },
+    "categories": {
+        "default": {
+            "title": "Browse Our Product Categories",
+            "description": "Find what you're looking for by browsing our extensive product categories."
+        },
+        "electronics": {
+            "title": "Top Deals on Electronics",
+            "description": "Explore the latest in electronic gadgets, from smartphones to laptops and more."
+        },
+        "fashion": {
+            "title": "Latest Trends in Fashion",
+            "description": "Update your wardrobe with the newest styles in clothing, shoes, and accessories."
+        }
+    },
+    "search": {
+        "default": {
+            "title": "Search Results",
+            "description": "See what we have to offer based on your search."
+        }
+    },
+    "product": {
+        "default": {
+            "title": "Product Details",
+            "description": "Learn more about this product."
+        }
+    },
+    "default": {
+        "title": "E-Commerce Store",
+        "description": "Your one-stop shop for everything you need."
+    }
+}
