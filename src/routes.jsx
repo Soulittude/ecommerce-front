@@ -6,6 +6,7 @@ import AuthPage from "./pages/AuthPage.jsx";
 import Product from "./pages/Product.jsx";
 import OrderConfirmation from "./pages/OrderConfirmation.jsx";
 import SearchPage from "./pages/SearchPage.jsx";
+import CategoryPage from "./pages/CategoryPage.jsx";
 import { useSeo } from "./context/SeoContext.jsx";
 import Seo from "./components/Seo.jsx";
 
@@ -34,6 +35,7 @@ export default function AppRoutes() {
           <Route path="/order-confirmation" element={<OrderConfirmation />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/search" element={<SearchPage />} />
+          <Route path="/category/:slug" element={<CategoryPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
