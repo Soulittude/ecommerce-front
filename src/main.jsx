@@ -20,7 +20,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
 
-import { SeoProvider } from "./context/SeoContext.jsx";
+import { HelmetProvider } from "react-helmet-async";
 
 // Initialize React Query client
 const queryClient = new QueryClient();
@@ -31,9 +31,9 @@ createRoot(document.getElementById("root")).render(
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <I18nextProvider i18n={i18n}>
-            <SeoProvider>
+            <HelmetProvider>
               <App />
-            </SeoProvider>
+            </HelmetProvider>
           </I18nextProvider>
         </PersistGate>
       </Provider>

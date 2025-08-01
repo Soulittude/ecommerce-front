@@ -20,13 +20,12 @@ const CategoryPage = () => {
   console.log("CategoryPage data:", data);
 
   const category = categories?.find((cat) => cat.slug === slug);
-  useSeoData(slug, "category");
+  const seoData = useSeoData("categories", slug);
 
   const crumbs = category ? [{ label: category.name }] : [];
 
   return (
     <>
-      <Seo />
       <div className="container mx-auto">
         <div className="my-4">
           <Breadcrumbs crumbs={crumbs} />
@@ -48,6 +47,11 @@ const CategoryPage = () => {
             />
           </div>
         </div>
+        <Seo
+          title={seoData.title}
+          description={seoData.description}
+          url={`/category/${slug}`}
+        />
       </div>
     </>
   );

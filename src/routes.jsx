@@ -7,17 +7,12 @@ import Product from "./pages/Product.jsx";
 import OrderConfirmation from "./pages/OrderConfirmation.jsx";
 import SearchPage from "./pages/SearchPage.jsx";
 import CategoryPage from "./pages/CategoryPage.jsx";
-import { useSeo } from "./context/SeoContext.jsx";
-import Seo from "./components/Seo.jsx";
-
 const Layout = () => {
-  const { seo } = useSeo();
   return (
     <>
       <NavBar />
       <main>
         <Outlet />
-        <Seo title={seo.title} description={seo.description} />
       </main>
     </>
   );

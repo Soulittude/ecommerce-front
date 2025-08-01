@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -17,19 +17,11 @@ import { useDispatch } from "react-redux";
 import { setCredentials } from "@/store/authSlice.js";
 import { useRegister, useLogin } from "@/hooks/queries.js";
 import { useSeoData } from "@/hooks/useSeoData.js";
-import { useSeo } from "@/context/SeoContext.jsx";
+import Seo from "@/components/Seo.jsx";
 
 const AuthPage = () => {
-  const { setSeo } = useSeo();
   const seoData = useSeoData("auth");
-
-  useEffect(() => {
-    if (seoData) {
-      setSeo(seoData);
-    }
-  }, [seoData, setSeo]);
   const [activeForm, setActiveForm] = useState("login");
-  const [activeAgreement, setActiveAgreement] = useState("privacy");
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [showRegisterPassword, setShowRegisterPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -134,7 +126,7 @@ const AuthPage = () => {
 
     if (Object.keys(errors).length === 0) {
       try {
-        const credentials = await register.mutateAsync({
+        await register.mutateAsync({
           name,
           email,
           password,
@@ -155,300 +147,309 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        {/* Logo/Back Button */}
-        <div className="mb-6 flex justify-center">
-          <button onClick={handleBack} className="focus:outline-none">
-            <img
-              src="/vite.svg"
-              alt="Company Logo"
-              className="h-12 w-12 cursor-pointer"
-            />
-          </button>
-        </div>
+    <>
+      <Seo title={seoData.title} description={seoData.description} />
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="w-full max-w-md">
+          {/* Logo/Back Button */}
+          <div className="mb-6 flex justify-center">
+            <button onClick={handleBack} className="focus:outline-none">
+              <img
+                src="/vite.svg"
+                alt="Company Logo"
+                className="h-12 w-12 cursor-pointer"
+              />
+            </button>
+          </div>
 
-        {/* Form Tabs */}
-        <Tabs
-          value={activeForm}
-          onValueChange={setActiveForm}
-          className="w-full"
-        >
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="login">Login</TabsTrigger>
-            <TabsTrigger value="register">Register</TabsTrigger>
-          </TabsList>
+          {/* Form Tabs */}
+          <Tabs
+            value={activeForm}
+            onValueChange={setActiveForm}
+            className="w-full"
+          >
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="login">Login</TabsTrigger>
+              <TabsTrigger value="register">Register</TabsTrigger>
+            </TabsList>
 
-          <TabsContent value="login">
-            <form onSubmit={handleLoginSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="login-email">Email</Label>
-                <Input
-                  id="login-email"
-                  type="email"
-                  placeholder="Enter your email"
-                />
-                {formErrors.email && (
-                  <p className="text-red-500 text-sm">{formErrors.email}</p>
-                )}
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="login-password">Password</Label>
-                <div className="relative">
+            <TabsContent value="login">
+              <form onSubmit={handleLoginSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="login-email">Email</Label>
                   <Input
-                    id="login-password"
-                    type={showLoginPassword ? "text" : "password"}
-                    placeholder="Enter your password"
+                    id="login-email"
+                    type="email"
+                    placeholder="Enter your email"
                   />
-                  <button
-                    type="button"
-                    onClick={() => setShowLoginPassword(!showLoginPassword)}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  >
-                    {showLoginPassword ? (
-                      <EyeOffIcon className="h-4 w-4" />
-                    ) : (
-                      <EyeIcon className="h-4 w-4" />
-                    )}
-                  </button>
+                  {formErrors.email && (
+                    <p className="text-red-500 text-sm">{formErrors.email}</p>
+                  )}
                 </div>
-                {formErrors.password && (
-                  <p className="text-red-500 text-sm">{formErrors.password}</p>
-                )}
-              </div>
-              <div className="flex items-center space-x-2">
-                <Checkbox id="login-remember" />
-                <Label htmlFor="login-remember">Remember me</Label>
-              </div>
-              <div className="text-right mb-4">
-                <button
-                  type="button"
-                  onClick={() => console.log("Forgot Password clicked")}
-                  className="text-sm text-primary underline"
-                >
-                  Forgot Password?
-                </button>
-              </div>
-              <Button type="submit" className="w-full">
-                Login
-              </Button>
-            </form>
-          </TabsContent>
-
-          <TabsContent value="register">
-            <form onSubmit={handleRegisterSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="register-name">Name</Label>
-                <Input
-                  id="register-name"
-                  type="text"
-                  placeholder="Enter your name"
-                />
-                {formErrors.name && (
-                  <p className="text-red-500 text-sm">{formErrors.name}</p>
-                )}
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="register-email">Email</Label>
-                <Input
-                  id="register-email"
-                  type="email"
-                  placeholder="Enter your email"
-                />
-                {formErrors.email && (
-                  <p className="text-red-500 text-sm">{formErrors.email}</p>
-                )}
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="register-password">Password</Label>
-                <div className="relative">
-                  <Input
-                    id="register-password"
-                    type={showRegisterPassword ? "text" : "password"}
-                    placeholder="Enter your password"
-                  />
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setShowRegisterPassword(!showRegisterPassword)
-                    }
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  >
-                    {showRegisterPassword ? (
-                      <EyeOffIcon className="h-4 w-4" />
-                    ) : (
-                      <EyeIcon className="h-4 w-4" />
-                    )}
-                  </button>
+                <div className="space-y-2">
+                  <Label htmlFor="login-password">Password</Label>
+                  <div className="relative">
+                    <Input
+                      id="login-password"
+                      type={showLoginPassword ? "text" : "password"}
+                      placeholder="Enter your password"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowLoginPassword(!showLoginPassword)}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                    >
+                      {showLoginPassword ? (
+                        <EyeOffIcon className="h-4 w-4" />
+                      ) : (
+                        <EyeIcon className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                  {formErrors.password && (
+                    <p className="text-red-500 text-sm">
+                      {formErrors.password}
+                    </p>
+                  )}
                 </div>
-                {formErrors.password && (
-                  <p className="text-red-500 text-sm">{formErrors.password}</p>
-                )}
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="register-confirm-password">
-                  Confirm Password
-                </Label>
-                <div className="relative">
-                  <Input
-                    id="register-confirm-password"
-                    type={showConfirmPassword ? "text" : "password"}
-                    placeholder="Confirm your password"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  >
-                    {showConfirmPassword ? (
-                      <EyeOffIcon className="h-4 w-4" />
-                    ) : (
-                      <EyeIcon className="h-4 w-4" />
-                    )}
-                  </button>
-                </div>
-                {formErrors.confirmPassword && (
-                  <p className="text-red-500 text-sm">
-                    {formErrors.confirmPassword}
-                  </p>
-                )}
-              </div>
-
-              {/* Agreement Checkboxes */}
-              <div className="space-y-2">
-                <div className="flex items-start space-x-2">
-                  <Checkbox
-                    id="register-agreements"
-                    checked={isAgreementsAccepted}
-                    onCheckedChange={setIsAgreementsAccepted}
-                  />
-                  <Label htmlFor="register-agreements" className="text-sm">
-                    <span className="break-words">
-                      I accept the{" "}
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button
-                            variant="link"
-                            className="p-0 h-auto text-primary underline inline"
-                          >
-                            Privacy Policy
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>Privacy Policy</DialogTitle>
-                          </DialogHeader>
-                          <p className="text-sm text-muted-foreground">
-                            [Privacy Policy content goes here. This is a
-                            placeholder text.]
-                          </p>
-                        </DialogContent>
-                      </Dialog>
-                      ,{" "}
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button
-                            variant="link"
-                            className="p-0 h-auto text-primary underline inline"
-                          >
-                            Membership Agreement
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>Membership Agreement</DialogTitle>
-                          </DialogHeader>
-                          <p className="text-sm text-muted-foreground">
-                            [Membership Agreement content goes here. This is a
-                            placeholder text.]
-                          </p>
-                        </DialogContent>
-                      </Dialog>
-                      , and{" "}
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button
-                            variant="link"
-                            className="p-0 h-auto text-primary underline inline"
-                          >
-                            Personal Data Usage
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>Personal Data Usage</DialogTitle>
-                          </DialogHeader>
-                          <p className="text-sm text-muted-foreground">
-                            [Personal Data Usage content goes here. This is a
-                            placeholder text.]
-                          </p>
-                        </DialogContent>
-                      </Dialog>
-                    </span>
-                  </Label>
-                </div>
-                {formErrors.agreements && (
-                  <p className="text-red-500 text-sm">
-                    {formErrors.agreements}
-                  </p>
-                )}
                 <div className="flex items-center space-x-2">
-                  <Checkbox id="register-notifications" />
-                  <Label htmlFor="register-notifications">
-                    I want to be notified about latest sales and promotions
-                  </Label>
+                  <Checkbox id="login-remember" />
+                  <Label htmlFor="login-remember">Remember me</Label>
                 </div>
-              </div>
+                <div className="text-right mb-4">
+                  <button
+                    type="button"
+                    onClick={() => console.log("Forgot Password clicked")}
+                    className="text-sm text-primary underline"
+                  >
+                    Forgot Password?
+                  </button>
+                </div>
+                <Button type="submit" className="w-full">
+                  Login
+                </Button>
+              </form>
+            </TabsContent>
 
-              {/* Captcha */}
-              <div className="space-y-2">
-                <Label>Captcha</Label>
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="register-captcha"
-                    checked={isCaptchaVerified}
-                    onCheckedChange={setIsCaptchaVerified}
+            <TabsContent value="register">
+              <form onSubmit={handleRegisterSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="register-name">Name</Label>
+                  <Input
+                    id="register-name"
+                    type="text"
+                    placeholder="Enter your name"
                   />
-                  <Label htmlFor="register-captcha">I&apos;m not a robot</Label>
+                  {formErrors.name && (
+                    <p className="text-red-500 text-sm">{formErrors.name}</p>
+                  )}
                 </div>
-                {formErrors.captcha && (
-                  <p className="text-red-500 text-sm">{formErrors.captcha}</p>
-                )}
-              </div>
+                <div className="space-y-2">
+                  <Label htmlFor="register-email">Email</Label>
+                  <Input
+                    id="register-email"
+                    type="email"
+                    placeholder="Enter your email"
+                  />
+                  {formErrors.email && (
+                    <p className="text-red-500 text-sm">{formErrors.email}</p>
+                  )}
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="register-password">Password</Label>
+                  <div className="relative">
+                    <Input
+                      id="register-password"
+                      type={showRegisterPassword ? "text" : "password"}
+                      placeholder="Enter your password"
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setShowRegisterPassword(!showRegisterPassword)
+                      }
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                    >
+                      {showRegisterPassword ? (
+                        <EyeOffIcon className="h-4 w-4" />
+                      ) : (
+                        <EyeIcon className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                  {formErrors.password && (
+                    <p className="text-red-500 text-sm">
+                      {formErrors.password}
+                    </p>
+                  )}
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="register-confirm-password">
+                    Confirm Password
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      id="register-confirm-password"
+                      type={showConfirmPassword ? "text" : "password"}
+                      placeholder="Confirm your password"
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                    >
+                      {showConfirmPassword ? (
+                        <EyeOffIcon className="h-4 w-4" />
+                      ) : (
+                        <EyeIcon className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                  {formErrors.confirmPassword && (
+                    <p className="text-red-500 text-sm">
+                      {formErrors.confirmPassword}
+                    </p>
+                  )}
+                </div>
 
-              <Button type="submit" className="w-full">
-                Register
-              </Button>
-            </form>
-          </TabsContent>
-        </Tabs>
+                {/* Agreement Checkboxes */}
+                <div className="space-y-2">
+                  <div className="flex items-start space-x-2">
+                    <Checkbox
+                      id="register-agreements"
+                      checked={isAgreementsAccepted}
+                      onCheckedChange={setIsAgreementsAccepted}
+                    />
+                    <Label htmlFor="register-agreements" className="text-sm">
+                      <span className="break-words">
+                        I accept the{" "}
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button
+                              variant="link"
+                              className="p-0 h-auto text-primary underline inline"
+                            >
+                              Privacy Policy
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent>
+                            <DialogHeader>
+                              <DialogTitle>Privacy Policy</DialogTitle>
+                            </DialogHeader>
+                            <p className="text-sm text-muted-foreground">
+                              [Privacy Policy content goes here. This is a
+                              placeholder text.]
+                            </p>
+                          </DialogContent>
+                        </Dialog>
+                        ,{" "}
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button
+                              variant="link"
+                              className="p-0 h-auto text-primary underline inline"
+                            >
+                              Membership Agreement
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent>
+                            <DialogHeader>
+                              <DialogTitle>Membership Agreement</DialogTitle>
+                            </DialogHeader>
+                            <p className="text-sm text-muted-foreground">
+                              [Membership Agreement content goes here. This is a
+                              placeholder text.]
+                            </p>
+                          </DialogContent>
+                        </Dialog>
+                        , and{" "}
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button
+                              variant="link"
+                              className="p-0 h-auto text-primary underline inline"
+                            >
+                              Personal Data Usage
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent>
+                            <DialogHeader>
+                              <DialogTitle>Personal Data Usage</DialogTitle>
+                            </DialogHeader>
+                            <p className="text-sm text-muted-foreground">
+                              [Personal Data Usage content goes here. This is a
+                              placeholder text.]
+                            </p>
+                          </DialogContent>
+                        </Dialog>
+                      </span>
+                    </Label>
+                  </div>
+                  {formErrors.agreements && (
+                    <p className="text-red-500 text-sm">
+                      {formErrors.agreements}
+                    </p>
+                  )}
+                  <div className="flex items-center space-x-2">
+                    <Checkbox id="register-notifications" />
+                    <Label htmlFor="register-notifications">
+                      I want to be notified about latest sales and promotions
+                    </Label>
+                  </div>
+                </div>
 
-        {/* Social Login Buttons */}
-        <div className="mt-6 space-y-3">
-          <Button
-            variant="outline"
-            className="w-full"
-            onClick={() => console.log("Google login clicked")}
-          >
-            Continue with Google
-          </Button>
-          <Button
-            variant="outline"
-            className="w-full"
-            onClick={() => console.log("Facebook login clicked")}
-          >
-            Continue with Facebook
-          </Button>
-          <Button
-            variant="outline"
-            className="w-full"
-            onClick={() => console.log("Apple login clicked")}
-          >
-            Continue with Apple
-          </Button>
+                {/* Captcha */}
+                <div className="space-y-2">
+                  <Label>Captcha</Label>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="register-captcha"
+                      checked={isCaptchaVerified}
+                      onCheckedChange={setIsCaptchaVerified}
+                    />
+                    <Label htmlFor="register-captcha">I'm not a robot</Label>
+                  </div>
+                  {formErrors.captcha && (
+                    <p className="text-red-500 text-sm">{formErrors.captcha}</p>
+                  )}
+                </div>
+
+                <Button type="submit" className="w-full">
+                  Register
+                </Button>
+              </form>
+            </TabsContent>
+          </Tabs>
+
+          {/* Social Login Buttons */}
+          <div className="mt-6 space-y-3">
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => console.log("Google login clicked")}
+            >
+              Continue with Google
+            </Button>
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => console.log("Facebook login clicked")}
+            >
+              Continue with Facebook
+            </Button>
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => console.log("Apple login clicked")}
+            >
+              Continue with Apple
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

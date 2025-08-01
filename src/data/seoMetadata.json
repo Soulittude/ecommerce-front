@@ -8,11 +8,11 @@
             "title": "Browse Our Product Categories",
             "description": "Find what you're looking for by browsing our extensive product categories."
         },
-        "electronics": {
+        "cep-telefonu": {
             "title": "Top Deals on Electronics",
             "description": "Explore the latest in electronic gadgets, from smartphones to laptops and more."
         },
-        "fashion": {
+        "kiyafet": {
             "title": "Latest Trends in Fashion",
             "description": "Update your wardrobe with the newest styles in clothing, shoes, and accessories."
         }

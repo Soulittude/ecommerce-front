@@ -3,19 +3,11 @@ import ProductCarousel from "../components/ProductCarousel";
 import Banner from "../components/Banner";
 import BannerLine from "../components/BannerLine";
 import { HeroCarousel } from "../components/HeroCarousel";
-import { useSeo } from "../context/SeoContext";
-import { useEffect } from "react";
 import { useSeoData } from "../hooks/useSeoData.js";
+import Seo from "../components/Seo.jsx";
 
 export default function Home() {
-  const { setSeo } = useSeo();
   const seoData = useSeoData("home");
-
-  useEffect(() => {
-    if (seoData) {
-      setSeo(seoData);
-    }
-  }, [seoData, setSeo]);
 
   const { data: products = [], isLoading, isError } = useProducts();
 
@@ -77,36 +69,39 @@ export default function Home() {
   ];
 
   return (
-    <div className="py-6 mx-auto max-w-screen-xl">
-      <div className="mb-8 w-3/5 mx-auto">
-        <HeroCarousel items={carouselItems} />
+    <>
+      <div className="py-6 mx-auto max-w-screen-xl">
+        <div className="mb-8 w-3/5 mx-auto">
+          <HeroCarousel items={carouselItems} />
+        </div>
+        <div className="mb-8">
+          <ProductCarousel
+            title="Featured Products"
+            products={products}
+            isLoading={isLoading}
+            isError={isError}
+          />
+        </div>
+        <BannerLine className="h-48 mb-8">
+          {bannerLines[0].map((banner, index) => (
+            <Banner key={index} {...banner} />
+          ))}
+        </BannerLine>
+        <div className="mb-8">
+          <ProductCarousel
+            title="New Arrivals"
+            products={products}
+            isLoading={isLoading}
+            isError={isError}
+          />
+        </div>
+        <BannerLine className="h-48">
+          {bannerLines[1].map((banner, index) => (
+            <Banner key={index} {...banner} />
+          ))}
+        </BannerLine>
+        <Seo title={seoData.title} description={seoData.description} url="/" />
       </div>
-      <div className="mb-8">
-        <ProductCarousel
-          title="Featured Products"
-          products={products}
-          isLoading={isLoading}
-          isError={isError}
-        />
-      </div>
-      <BannerLine className="h-48 mb-8">
-        {bannerLines[0].map((banner, index) => (
-          <Banner key={index} {...banner} />
-        ))}
-      </BannerLine>
-      <div className="mb-8">
-        <ProductCarousel
-          title="New Arrivals"
-          products={products}
-          isLoading={isLoading}
-          isError={isError}
-        />
-      </div>
-      <BannerLine className="h-48">
-        {bannerLines[1].map((banner, index) => (
-          <Banner key={index} {...banner} />
-        ))}
-      </BannerLine>
-    </div>
+    </>
   );
 }
