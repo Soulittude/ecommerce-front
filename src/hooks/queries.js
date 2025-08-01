@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  useInfiniteQuery,
+} from "@tanstack/react-query";
 import * as authApi from "../api/auth";
 import * as categoryApi from "../api/categories";
 import * as productApi from "../api/products";
@@ -86,9 +91,26 @@ export const useUpdateProduct = () => {
 
 export const useDeleteProduct = () => {
   const qc = useQueryClient();
+
   return useMutation({
     mutationFn: productApi.deleteProduct,
     onSuccess: () => qc.invalidateQueries({ queryKey: ["products"] }),
+  });
+};
+
+// === Products by Category (Infinite Scroll) ===
+export const useProductsByCategory = (slug) => {
+  return useInfiniteQuery({
+    queryKey: ["products", "category", slug],
+    queryFn: ({ pageParam = 1 }) =>
+      productApi.getProductsByCategory({ slug, pageParam }),
+    getNextPageParam: (lastPage) => {
+      if (lastPage.page < lastPage.totalPages) {
+        return lastPage.page + 1;
+      }
+      return undefined;
+    },
+    enabled: !!slug,
   });
 };
 

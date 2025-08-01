@@ -25,3 +25,10 @@ export const updateProduct = async ({ id, ...payload }) => {
 export const deleteProduct = async (id) => {
   await api.delete(`/products/${id}`);
 };
+
+export const getProductsByCategory = async ({ slug, pageParam = 1 }) => {
+  const response = await api.get(
+    `/products/category/${slug}?page=${pageParam}`,
+  );
+  return response.data;
+};
