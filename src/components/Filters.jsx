@@ -9,7 +9,7 @@ import { Label } from "./ui/label";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 
 const Filters = () => {
-  // Dummy data for filters - this will be replaced with dynamic data later
+  // Dummy data for filters - this will be replaced with dynamic data later.
   const brands = ["Apple", "Samsung", "Sony", "LG"];
   const priceRanges = [
     { value: "0-100", label: "$0 - $100" },
