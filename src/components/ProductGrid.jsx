@@ -1,5 +1,5 @@
 import InfiniteScroll from "react-infinite-scroll-component";
-import ProductCard from "./ProductCard";
+import { ProductCard } from "./ProductCard";
 import { Skeleton } from "./ui/skeleton";
 import React from "react";
 
@@ -10,6 +10,7 @@ const ProductGrid = ({
   fetchNextPage,
   hasNextPage,
 }) => {
+  console.log("ProductGrid props:", { products, isLoading, isError });
   if (isLoading) {
     return (
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -24,8 +25,12 @@ const ProductGrid = ({
     return <p>Error loading products.</p>;
   }
 
+  if (!products) {
+    return null; // or a loading indicator, or an empty state
+  }
+
   const fetchedProductsCount = products.reduce(
-    (total, page) => total + page.products.length,
+    (total, page) => total + (page ? page.length : 0),
     0,
   );
 
@@ -44,9 +49,9 @@ const ProductGrid = ({
       endMessage={<p className="text-center my-4">No more products to show.</p>}
     >
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {products.map((group, i) => (
+        {products.map((page, i) => (
           <React.Fragment key={i}>
-            {group.products.map((product) => (
+            {page.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </React.Fragment>

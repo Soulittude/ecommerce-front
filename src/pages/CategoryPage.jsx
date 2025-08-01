@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useProductsByCategory, useCategories } from "../hooks/queries";
-import useSeoData from "../hooks/useSeoData";
+import { useSeoData } from "../hooks/useSeoData";
 import Seo from "../components/Seo";
 import ProductGrid from "../components/ProductGrid";
 import Filters from "../components/Filters";
@@ -17,6 +17,7 @@ const CategoryPage = () => {
     isFetchingNextPage,
     status,
   } = useProductsByCategory(slug);
+  console.log("CategoryPage data:", data);
 
   const category = categories?.find((cat) => cat.slug === slug);
   useSeoData(slug, "category");

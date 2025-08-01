@@ -26,9 +26,14 @@ export const deleteProduct = async (id) => {
   await api.delete(`/products/${id}`);
 };
 
+export const searchProducts = async ({ query, pageParam = 1 }) => {
+  const response = await api.get(`/products?q=${query}&page=${pageParam}`);
+  return response.data;
+};
+
 export const getProductsByCategory = async ({ slug, pageParam = 1 }) => {
   const response = await api.get(
-    `/products/category/${slug}?page=${pageParam}`,
+    `/products?category=${slug}&page=${pageParam}`,
   );
   return response.data;
 };
