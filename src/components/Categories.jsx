@@ -7,12 +7,14 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function Categories() {
-  const [searchParams] = useSearchParams();
+  const location = useLocation();
   const { data: categories = [], isLoading, isError } = useCategories();
-  const activeCategory = searchParams.get("category");
+  const activeCategory = location.pathname.startsWith("/category/")
+    ? location.pathname.split("/")[2]
+    : null;
 
   if (isLoading) {
     return <div>Loading categories...</div>;
@@ -37,7 +39,7 @@ export default function Categories() {
           categories.map((cat) => (
             <NavigationMenuItem key={cat.slug}>
               <Link
-                to={`/?category=${cat.slug}`}
+                to={`/category/${cat.slug}`}
                 className={cn(
                   navigationMenuTriggerStyle(),
                   activeCategory === cat.slug &&
