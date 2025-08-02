@@ -16,14 +16,10 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // If the error is a response with a data object, use that
-    if (error.response && error.response.data) {
-      return Promise.reject(error.response.data);
-    }
-    // Otherwise, create a generic error object
-    return Promise.reject({
+    const errorData = error.response?.data || {
       message: error.message || "An unknown error occurred",
-    });
+    };
+    return Promise.reject(errorData);
   },
 );
 

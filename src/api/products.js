@@ -1,14 +1,12 @@
 import api from "./apiClient";
 
-export const fetchProducts = async ({ queryKey }) => {
-  const [_key, params] = queryKey;
+export const fetchProducts = async (params) => {
   const { data } = await api.get("/products", { params });
   return data;
 };
 
-export const fetchProduct = async ({ queryKey }) => {
-  const [_key, productId] = queryKey;
-  const { data } = await api.get(`/products/${productId}`);
+export const fetchProduct = async (slug) => {
+  const { data } = await api.get(`/products/${slug}`);
   return data;
 };
 

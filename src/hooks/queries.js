@@ -61,17 +61,16 @@ export const useCategories = () =>
 export const useProducts = (params) =>
   useQuery({
     queryKey: ["products", params],
-    queryFn: () => productApi.fetchProducts({ queryKey: ["products", params] }),
+    queryFn: () => productApi.fetchProducts(params),
     keepPreviousData: true,
     staleTime: 1000 * 60,
   });
 
-export const useProduct = (productId) =>
+export const useProduct = (slug) =>
   useQuery({
-    queryKey: ["product", productId],
-    queryFn: () =>
-      productApi.fetchProduct({ queryKey: ["product", productId] }),
-    enabled: Boolean(productId),
+    queryKey: ["product", slug],
+    queryFn: () => productApi.fetchProduct(slug),
+    enabled: !!slug,
   });
 
 export const useCreateProduct = () => {
@@ -119,8 +118,8 @@ export const useProductsByCategory = (slug) => {
 export const useReviews = (slug) =>
   useQuery({
     queryKey: ["reviews", slug],
-    queryFn: () => reviewApi.fetchReviews({ queryKey: ["reviews", slug] }),
-    enabled: Boolean(slug),
+    queryFn: ({ queryKey }) => reviewApi.fetchReviews(queryKey[1]),
+    enabled: !!slug,
   });
 
 export const useCreateReview = (slug) => {

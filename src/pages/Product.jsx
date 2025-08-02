@@ -12,7 +12,6 @@ import { Skeleton } from "../components/ui/skeleton.jsx";
 const Product = () => {
   const { productId } = useParams();
   const { data: product, isLoading, isError, error } = useProduct(productId);
-
   if (isLoading) {
     return (
       <div className="container mx-auto p-4">
