@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addToCart } from "../../store/cartSlice";
-import { Button } from "@/components/ui/button";
+import { Button } from "../ui/button";
 import { Heart } from "lucide-react";
 import { toast } from "sonner";
 

@@ -55,7 +55,7 @@ const ImageCarousel = ({ images }) => {
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
-      <div className="flex gap-2 justify-center mt-4">
+      <div className="flex justify-center gap-2 mt-4">
         {images?.map((image, index) => (
           <button
             key={index}

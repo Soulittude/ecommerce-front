@@ -21,6 +21,7 @@ import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
 
 import { HelmetProvider } from "react-helmet-async";
+import { Toaster } from "@/components/ui/sonner";
 
 // Initialize React Query client
 const queryClient = new QueryClient();
@@ -33,6 +34,7 @@ createRoot(document.getElementById("root")).render(
           <I18nextProvider i18n={i18n}>
             <HelmetProvider>
               <App />
+              <Toaster />
             </HelmetProvider>
           </I18nextProvider>
         </PersistGate>
