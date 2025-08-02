@@ -11,7 +11,7 @@ import App from "./App.jsx";
 // Redux store
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import store, { persistor } from "./store";
+import { store, persistor } from "./store";
 
 // React Query
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
