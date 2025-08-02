@@ -56,12 +56,6 @@ export default function Product() {
 
   return (
     <>
-      <Seo
-        title={title}
-        description={description}
-        url={`/products/${slug}`}
-        image={product?.images?.[0]}
-      />
       <Card className="p-4 max-w-3xl mx-auto">
         <CardHeader>
           <CardTitle className="text-3xl font-bold">{product.name}</CardTitle>
@@ -125,6 +119,12 @@ export default function Product() {
           </section>
         </CardContent>
       </Card>
+      <Seo
+        title={title}
+        description={description}
+        url={`/products/${slug}`}
+        image={product?.images?.[0]}
+      />
     </>
   );
 }

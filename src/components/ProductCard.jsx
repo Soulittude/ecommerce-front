@@ -34,7 +34,6 @@ export function ProductCard({ product }) {
         quantity: 1,
       }),
     );
-    console.log(`Added ${product.name} to cart`);
   };
 
   return (

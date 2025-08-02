@@ -17,7 +17,6 @@ const CategoryPage = () => {
     isFetchingNextPage,
     status,
   } = useProductsByCategory(slug);
-  console.log("CategoryPage data:", data);
 
   const category = categories?.find((cat) => cat.slug === slug);
   const seoData = useSeoData("categories", slug);

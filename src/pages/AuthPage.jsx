@@ -219,7 +219,6 @@ const AuthPage = () => {
                 <div className="text-right mb-4">
                   <button
                     type="button"
-                    onClick={() => console.log("Forgot Password clicked")}
                     className="text-sm text-primary underline"
                   >
                     Forgot Password?
@@ -425,25 +424,13 @@ const AuthPage = () => {
 
           {/* Social Login Buttons */}
           <div className="mt-6 space-y-3">
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => console.log("Google login clicked")}
-            >
+            <Button variant="outline" className="w-full">
               Continue with Google
             </Button>
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => console.log("Facebook login clicked")}
-            >
+            <Button variant="outline" className="w-full">
               Continue with Facebook
             </Button>
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => console.log("Apple login clicked")}
-            >
+            <Button variant="outline" className="w-full">
               Continue with Apple
             </Button>
           </div>

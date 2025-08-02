@@ -26,7 +26,6 @@ const SearchPage = () => {
       return undefined;
     },
   });
-  console.log("SearchPage data:", data);
 
   const crumbs = [{ label: `Search results for "${query}"` }];
 

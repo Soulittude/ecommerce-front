@@ -10,7 +10,6 @@ const ProductGrid = ({
   fetchNextPage,
   hasNextPage,
 }) => {
-  console.log("ProductGrid props:", { products, isLoading, isError });
   if (isLoading) {
     return (
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
