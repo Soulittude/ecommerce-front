@@ -6,8 +6,13 @@ export const fetchProducts = async (params) => {
 };
 
 export const fetchProduct = async (slug) => {
-  const { data } = await api.get(`/products/${slug}`);
-  return data;
+  try {
+    const { data } = await api.get(`/products/${slug}`);
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch product:", error);
+    throw error;
+  }
 };
 
 export const createProduct = async (payload) => {

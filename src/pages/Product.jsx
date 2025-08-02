@@ -42,15 +42,14 @@ const Product = () => {
     return <div>Product not found.</div>;
   }
 
-  const breadcrumbs = [
-    {
+  const breadcrumbs = [];
+  if (product.category) {
+    breadcrumbs.push({
       label: product.category.name,
       path: `/category/${product.category.slug}`,
-    },
-    {
-      label: product.name,
-    },
-  ];
+    });
+  }
+  breadcrumbs.push({ label: product.name });
 
   const productAttributes = product.specs
     ? Object.entries(product.specs).map(([name, value]) => ({ name, value }))
@@ -61,7 +60,7 @@ const Product = () => {
       <Breadcrumbs crumbs={breadcrumbs} />
       <div className="flex flex-col md:flex-row gap-8 mt-4">
         <div className="w-full md:w-1/2">
-          <ImageCarousel images={product.images} />
+          <ImageCarousel images={product.images || []} />
         </div>
         <div className="w-full md:w-1/2 flex flex-col gap-4">
           <ProductTitle product={product} />
@@ -71,10 +70,7 @@ const Product = () => {
         </div>
       </div>
       <div className="mt-8">
-        <ProductTabs
-          description={product.description}
-          reviews={product.reviews}
-        />
+        <ProductTabs product={product} />
       </div>
     </div>
   );
