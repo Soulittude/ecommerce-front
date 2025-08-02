@@ -31,8 +31,9 @@ const reviewFormSchema = z.object({
     .optional(),
 });
 
-export default function ReviewForm({ slug }) {
-  const { mutateAsync, isPending, isError, error } = useCreateReview(slug);
+export default function ReviewForm({ productSlug, onReviewSubmitted }) {
+  const { mutateAsync, isPending, isError, error } =
+    useCreateReview(productSlug);
 
   const form = useForm({
     resolver: zodResolver(reviewFormSchema),
@@ -49,6 +50,9 @@ export default function ReviewForm({ slug }) {
         comment: values.comment,
       });
       form.reset();
+      if (onReviewSubmitted) {
+        onReviewSubmitted();
+      }
     } catch (err) {
       // The isError and error state from the useCreateReview hook will display the error
       console.error("Failed to submit review:", err);

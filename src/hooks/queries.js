@@ -118,7 +118,7 @@ export const useProductsByCategory = (slug) => {
 export const useReviews = (slug) =>
   useQuery({
     queryKey: ["reviews", slug],
-    queryFn: ({ queryKey }) => reviewApi.fetchReviews(queryKey[1]),
+    queryFn: reviewApi.fetchReviews,
     enabled: !!slug,
   });
 
@@ -126,7 +126,10 @@ export const useCreateReview = (slug) => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (review) => reviewApi.createReview({ slug, review }),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["reviews", slug] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["reviews", slug] });
+      qc.invalidateQueries({ queryKey: ["product", slug] });
+    },
   });
 };
 

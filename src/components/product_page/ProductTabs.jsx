@@ -37,7 +37,7 @@ const ProductTabs = ({ product }) => {
       </TabsContent>
 
       <TabsContent value="reviews">
-        <ReviewList reviews={product.reviews} />
+        <ReviewList slug={product.slug} />
         {token && (
           <div className="mt-6">
             <Button onClick={() => setShowReviewForm(!showReviewForm)}>
@@ -46,7 +46,7 @@ const ProductTabs = ({ product }) => {
             {showReviewForm && (
               <div className="mt-4">
                 <ReviewForm
-                  productId={product.id}
+                  productSlug={product.slug}
                   onReviewSubmitted={() => setShowReviewForm(false)}
                 />
               </div>
