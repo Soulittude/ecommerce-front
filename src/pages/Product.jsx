@@ -3,6 +3,7 @@ import { useProduct } from "../hooks/queries.js";
 import Breadcrumbs from "../components/Breadcrumbs.jsx";
 import ImageCarousel from "../components/product_page/ImageCarousel.jsx";
 import ProductTitle from "../components/product_page/ProductTitle.jsx";
+import ProductInfo from "../components/product_page/ProductInfo.jsx";
 import ActionButtons from "../components/product_page/ActionButtons.jsx";
 import ShippingDetails from "../components/product_page/ShippingDetails.jsx";
 import ProductAttributes from "../components/product_page/ProductAttributes.jsx";
@@ -64,6 +65,7 @@ const Product = () => {
         </div>
         <div className="w-full md:w-1/2 flex flex-col gap-4">
           <ProductTitle product={product} />
+          <ProductInfo product={product} />
           <ActionButtons product={product} />
           <ShippingDetails />
           <ProductAttributes attributes={productAttributes} />
