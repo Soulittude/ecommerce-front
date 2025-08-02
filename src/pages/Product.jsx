@@ -1,130 +1,80 @@
-import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useProduct } from "../hooks/queries";
-import { useSeoData } from "../hooks/useSeoData";
-import Seo from "@/components/Seo.jsx";
-import { useDispatch } from "react-redux";
-import { addItem } from "../store/cartSlice";
-import ReviewList from "../components/ReviewList";
-import ReviewForm from "../components/ReviewForm";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardFooter,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { useProduct } from "../hooks/queries.js";
+import Breadcrumbs from "../components/Breadcrumbs.jsx";
+import ImageCarousel from "../components/product_page/ImageCarousel.jsx";
+import ProductInfo from "../components/product_page/ProductInfo.jsx";
+import ActionButtons from "../components/product_page/ActionButtons.jsx";
+import ShippingDetails from "../components/product_page/ShippingDetails.jsx";
+import ProductAttributes from "../components/product_page/ProductAttributes.jsx";
+import ProductTabs from "../components/product_page/ProductTabs.jsx";
+import { Skeleton } from "../components/ui/skeleton.jsx";
 
-export default function Product() {
-  const { slug } = useParams();
-  const { data: product, isLoading, isError } = useProduct(slug);
-  const dispatch = useDispatch();
-  const seoData = useSeoData("product", slug);
+const Product = () => {
+  const { productId } = useParams();
+  const { data: product, isLoading, isError, error } = useProduct(productId);
 
-  if (isLoading)
+  if (isLoading) {
     return (
-      <Card className="p-4 max-w-3xl mx-auto">
-        <CardHeader>
-          <Skeleton className="h-8 w-full rounded-md" />
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <Skeleton className="h-48 w-full rounded-md" />
-          <Skeleton className="h-6 w-1/3 rounded-md" />
-          <Skeleton className="h-10 w-1/4 rounded-md" />
-        </CardContent>
-      </Card>
+      <div className="container mx-auto p-4">
+        <div className="flex flex-col md:flex-row gap-8 mt-4">
+          <div className="w-full md:w-1/2">
+            <Skeleton className="w-full h-[500px]" />
+          </div>
+          <div className="w-full md:w-1/2 flex flex-col gap-4">
+            <Skeleton className="h-12 w-3/4" />
+            <Skeleton className="h-8 w-1/4" />
+            <Skeleton className="h-20 w-full" />
+            <div className="flex gap-2">
+              <Skeleton className="h-10 flex-grow" />
+              <Skeleton className="h-10 w-24" />
+            </div>
+            <Skeleton className="h-40 w-full" />
+          </div>
+        </div>
+      </div>
     );
-  if (isError)
-    return (
-      <Card className="p-4 max-w-3xl mx-auto">
-        <CardContent>
-          <Alert variant="destructive">
-            <AlertTitle>Error</AlertTitle>
-            <AlertDescription>
-              Product not found. Please try again later.
-            </AlertDescription>
-          </Alert>
-        </CardContent>
-      </Card>
-    );
+  }
 
-  const title = product?.name ? `${product.name} | E-Commerce` : seoData.title;
-  const description = product?.description || seoData.description;
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  if (!product) {
+    return <div>Product not found.</div>;
+  }
+
+  const breadcrumbs = [
+    {
+      label: product.category.name,
+      path: `/category/${product.category.slug}`,
+    },
+    {
+      label: product.name,
+    },
+  ];
 
   return (
-    <>
-      <Card className="p-4 max-w-3xl mx-auto">
-        <CardHeader>
-          <CardTitle className="text-3xl font-bold">{product.name}</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          {/*image carousel (basic)*/}
-          <div className="flex space-x-4 overflow-x-auto scrollbar-hide">
-            {product.images.map((url, i) => (
-              <img
-                key={i}
-                src={url}
-                alt={`${product.name} ${i + 1}`}
-                className="h-48 w-auto rounded"
-              />
-            ))}
-          </div>
-
-          <p className="text-xl font-semibold">${product.price}</p>
-          <Button
-            onClick={() =>
-              dispatch(
-                addItem({
-                  id: product.id,
-                  name: product.name,
-                  price: product.price,
-                  quantity: 1,
-                }),
-              )
-            }
-            className="mt-4" // Added margin-top for spacing
-          >
-            Add to Cart
-          </Button>
-
-          <section>
-            <h2 className="text-2xl font-semibold">Description</h2>
-            <p>{product.description}</p>
-          </section>
-
-          {product.specs && (
-            <section>
-              <h2 className="text-2xl font-semibold">Specifications</h2>
-              <ul className="list-disc list-inside">
-                {product.specs && typeof product.specs === "object" && (
-                  <ul className="list-disc list-inside">
-                    {Object.entries(product.specs).map(([key, val]) => (
-                      <li key={key}>
-                        <strong>{key}</strong>: {val}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </ul>
-            </section>
-          )}
-
-          <section className="border-t pt-6">
-            <h2 className="text-2xl font-semibold mb-4">Reviews</h2>
-            <ReviewList slug={slug} />
-            <ReviewForm slug={slug} />
-          </section>
-        </CardContent>
-      </Card>
-      <Seo
-        title={title}
-        description={description}
-        url={`/products/${slug}`}
-        image={product?.images?.[0]}
-      />
-    </>
+    <div className="container mx-auto p-4">
+      <Breadcrumbs crumbs={breadcrumbs} />
+      <div className="flex flex-col md:flex-row gap-8 mt-4">
+        <div className="w-full md:w-1/2">
+          <ImageCarousel images={product.images} />
+        </div>
+        <div className="w-full md:w-1/2 flex flex-col gap-4">
+          <ProductInfo product={product} />
+          <ActionButtons product={product} />
+          <ShippingDetails />
+          <ProductAttributes attributes={product.attributes} />
+        </div>
+      </div>
+      <div className="mt-8">
+        <ProductTabs
+          description={product.description}
+          reviews={product.reviews}
+        />
+      </div>
+    </div>
   );
-}
+};
+
+export default Product;

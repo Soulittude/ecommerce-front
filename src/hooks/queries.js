@@ -66,11 +66,12 @@ export const useProducts = (params) =>
     staleTime: 1000 * 60,
   });
 
-export const useProduct = (slug) =>
+export const useProduct = (productId) =>
   useQuery({
-    queryKey: ["product", slug],
-    queryFn: () => productApi.fetchProduct({ queryKey: ["product", slug] }),
-    enabled: Boolean(slug),
+    queryKey: ["product", productId],
+    queryFn: () =>
+      productApi.fetchProduct({ queryKey: ["product", productId] }),
+    enabled: Boolean(productId),
   });
 
 export const useCreateProduct = () => {

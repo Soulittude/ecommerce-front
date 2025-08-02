@@ -7,8 +7,8 @@ export const fetchProducts = async ({ queryKey }) => {
 };
 
 export const fetchProduct = async ({ queryKey }) => {
-  const [_key, slug] = queryKey;
-  const { data } = await api.get(`/products/${slug}`);
+  const [_key, productId] = queryKey;
+  const { data } = await api.get(`/products/${productId}`);
   return data;
 };
 
