@@ -6,16 +6,18 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-const ProductInfo = () => {
+const ProductInfo = ({ product }) => {
+  if (!product) return null;
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Product Name</CardTitle>
-        <CardDescription>Product Category</CardDescription>
+        <CardTitle>{product.name}</CardTitle>
+        <CardDescription>{product.category?.name}</CardDescription>
       </CardHeader>
       <CardContent>
-        <p>$99.99</p>
-        <p>This is a brief description of the product.</p>
+        <p className="text-2xl font-bold">${product.price}</p>
+        <p className="text-sm text-muted-foreground">{product.description}</p>
       </CardContent>
     </Card>
   );
