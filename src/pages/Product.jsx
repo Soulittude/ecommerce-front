@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useProduct } from "../hooks/queries.js";
 import Breadcrumbs from "../components/Breadcrumbs.jsx";
 import ImageCarousel from "../components/product_page/ImageCarousel.jsx";
-import ProductInfo from "../components/product_page/ProductInfo.jsx";
+import ProductTitle from "../components/product_page/ProductTitle.jsx";
 import ActionButtons from "../components/product_page/ActionButtons.jsx";
 import ShippingDetails from "../components/product_page/ShippingDetails.jsx";
 import ProductAttributes from "../components/product_page/ProductAttributes.jsx";
@@ -52,6 +52,10 @@ const Product = () => {
     },
   ];
 
+  const productAttributes = product.specs
+    ? Object.entries(product.specs).map(([name, value]) => ({ name, value }))
+    : [];
+
   return (
     <div className="container mx-auto p-4">
       <Breadcrumbs crumbs={breadcrumbs} />
@@ -60,10 +64,10 @@ const Product = () => {
           <ImageCarousel images={product.images} />
         </div>
         <div className="w-full md:w-1/2 flex flex-col gap-4">
-          <ProductInfo product={product} />
+          <ProductTitle product={product} />
           <ActionButtons product={product} />
           <ShippingDetails />
-          <ProductAttributes attributes={product.attributes} />
+          <ProductAttributes attributes={productAttributes} />
         </div>
       </div>
       <div className="mt-8">
