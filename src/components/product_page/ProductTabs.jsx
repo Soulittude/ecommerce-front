@@ -1,5 +1,12 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
@@ -9,15 +16,24 @@ import ReviewForm from "../ReviewForm";
 import ReviewList from "../ReviewList";
 
 const ProductTabs = ({ product, activeTab, onTabChange }) => {
-  const { token } = useSelector((state) => state.auth);
-  const [showQuestionForm, setShowQuestionForm] = useState(false);
-  const [showReviewForm, setShowReviewForm] = useState(false);
+  const { token, user } = useSelector((state) => state.auth);
+  const [isReviewDialogOpen, setReviewDialogOpen] = useState(false);
+  const [isQuestionDialogOpen, setQuestionDialogOpen] = useState(false);
+  const [localQuestions, setLocalQuestions] = useState([]);
 
   const handleQuestionSubmit = (e) => {
     e.preventDefault();
-    console.log("Question submitted:", e.target.question.value);
+    const questionText = e.target.question.value;
+    const newQuestion = {
+      id: Date.now(), // Temporary ID
+      user: { name: user?.name || "You" },
+      question: questionText,
+      answer: null, // No answer yet
+      createdAt: new Date().toISOString(),
+    };
+    setLocalQuestions([...localQuestions, newQuestion]);
     toast.success("Your question has been submitted!");
-    setShowQuestionForm(false);
+    setQuestionDialogOpen(false); // Close dialog
   };
 
   return (
@@ -39,40 +55,62 @@ const ProductTabs = ({ product, activeTab, onTabChange }) => {
       <TabsContent value="reviews">
         <ReviewList slug={product.slug} />
         {token && (
-          <div className="mt-6">
-            <Button onClick={() => setShowReviewForm(!showReviewForm)}>
-              {showReviewForm ? "Cancel" : "Write a Review"}
-            </Button>
-            {showReviewForm && (
-              <div className="mt-4">
-                <ReviewForm
-                  productSlug={product.slug}
-                  onReviewSubmitted={() => setShowReviewForm(false)}
-                />
-              </div>
-            )}
-          </div>
+          <Dialog open={isReviewDialogOpen} onOpenChange={setReviewDialogOpen}>
+            <DialogTrigger asChild>
+              <Button className="mt-6">Write a Review</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Write a Review</DialogTitle>
+              </DialogHeader>
+              <ReviewForm
+                productSlug={product.slug}
+                onReviewSubmitted={() => setReviewDialogOpen(false)}
+              />
+            </DialogContent>
+          </Dialog>
         )}
       </TabsContent>
 
       <TabsContent value="qa">
-        <p>Questions and answers about the product will be displayed here.</p>
-        {token && (
-          <div className="mt-4">
-            <Button onClick={() => setShowQuestionForm(!showQuestionForm)}>
-              {showQuestionForm ? "Cancel" : "Ask a Question"}
-            </Button>
-            {showQuestionForm && (
-              <form onSubmit={handleQuestionSubmit} className="mt-4 space-y-4">
-                <div>
-                  <Label htmlFor="question">Your Question</Label>
-                  <Textarea id="question" name="question" required />
-                </div>
-                <Button type="submit">Submit Question</Button>
-              </form>
-            )}
+        <div className="border rounded-lg p-4 mt-4">
+          <div className="mt-4 space-y-4">
+            {localQuestions.map((q) => (
+              <div key={q.id}>
+                <p className="font-semibold">{q.user.name} asks:</p>
+                <p className="ml-4">{q.question}</p>
+                <p className="ml-4 text-sm text-muted-foreground italic">
+                  Pending a reply from the seller.
+                </p>
+              </div>
+            ))}
           </div>
-        )}
+          {token && (
+            <Dialog
+              open={isQuestionDialogOpen}
+              onOpenChange={setQuestionDialogOpen}
+            >
+              <DialogTrigger asChild>
+                <Button className="mt-4">Ask a Question</Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Ask a Question</DialogTitle>
+                </DialogHeader>
+                <form
+                  onSubmit={handleQuestionSubmit}
+                  className="mt-4 space-y-4"
+                >
+                  <div>
+                    <Label htmlFor="question">Your Question</Label>
+                    <Textarea id="question" name="question" required />
+                  </div>
+                  <Button type="submit">Submit Question</Button>
+                </form>
+              </DialogContent>
+            </Dialog>
+          )}
+        </div>
       </TabsContent>
 
       <TabsContent value="shipping">
