@@ -7,16 +7,20 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-const ImageCarousel = () => {
+const ImageCarousel = ({ images }) => {
   return (
-    <Carousel className="w-full max-w-xs">
+    <Carousel className="w-full max-w-lg">
       <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
+        {images?.map((image, index) => (
           <CarouselItem key={index}>
             <div className="p-1">
               <Card>
-                <CardContent className="flex aspect-square items-center justify-center p-6">
-                  <span className="text-4xl font-semibold">{index + 1}</span>
+                <CardContent className="flex aspect-square items-center justify-center p-0">
+                  <img
+                    src={image}
+                    alt={`Product image ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
                 </CardContent>
               </Card>
             </div>
