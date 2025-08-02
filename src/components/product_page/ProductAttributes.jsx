@@ -1,36 +1,18 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableCaption,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 
 const ProductAttributes = ({ attributes }) => {
   if (!attributes || attributes.length === 0) {
-    return <p>No attributes to display.</p>;
+    return null; // Return null instead of a paragraph for a cleaner look
   }
 
   return (
-    <Table>
-      <TableCaption>Product Specifications</TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Attribute</TableHead>
-          <TableHead>Value</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {attributes.map((attr, index) => (
-          <TableRow key={index}>
-            <TableCell className="font-medium">{attr.name}</TableCell>
-            <TableCell>{attr.value}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <div className="flex flex-wrap gap-2">
+      {attributes.map((attr, index) => (
+        <Badge key={index} variant="outline">
+          {attr.name}: <strong className="ml-1">{attr.value}</strong>
+        </Badge>
+      ))}
+    </div>
   );
 };
 

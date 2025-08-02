@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
 import { useDispatch } from "react-redux";
-import { addItem } from "../store/cartSlice";
+import { addToCart } from "../store/cartSlice";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -26,11 +26,8 @@ export function ProductCard({ product }) {
 
   const handleAddToCart = () => {
     dispatch(
-      addItem({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        image: product.images?.[0], // Pass the first image to the cart
+      addToCart({
+        product,
         quantity: 1,
       }),
     );
