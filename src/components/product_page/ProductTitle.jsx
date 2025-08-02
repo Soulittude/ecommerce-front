@@ -1,6 +1,6 @@
 import { Star } from "lucide-react";
 
-const ProductTitle = ({ product }) => {
+const ProductTitle = ({ product, onTabSelect }) => {
   if (!product) return null;
 
   const totalReviews = product.reviews?.length || 0;
@@ -31,12 +31,19 @@ const ProductTitle = ({ product }) => {
         <span className="text-sm text-muted-foreground">
           ({averageRating.toFixed(1)})
         </span>
-        <a
-          href="#reviews"
+        <button
+          onClick={() => onTabSelect("reviews")}
           className="text-sm text-muted-foreground hover:underline"
         >
           {totalReviews} Reviews
-        </a>
+        </button>
+        <span className="mx-1">|</span>
+        <button
+          onClick={() => onTabSelect("qa")}
+          className="text-sm text-muted-foreground hover:underline"
+        >
+          Q&A
+        </button>
       </div>
     </div>
   );

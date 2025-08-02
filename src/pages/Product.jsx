@@ -1,3 +1,4 @@
+import React, { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useProduct } from "../hooks/queries.js";
 import Breadcrumbs from "../components/Breadcrumbs.jsx";
@@ -13,6 +14,14 @@ import { Skeleton } from "../components/ui/skeleton.jsx";
 const Product = () => {
   const { productId } = useParams();
   const { data: product, isLoading, isError, error } = useProduct(productId);
+  const [activeTab, setActiveTab] = useState("description");
+  const tabsRef = useRef(null);
+
+  const handleTabSelect = (tab) => {
+    setActiveTab(tab);
+    tabsRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   if (isLoading) {
     return (
       <div className="container mx-auto p-4">
@@ -64,15 +73,19 @@ const Product = () => {
           <ImageCarousel images={product.images || []} />
         </div>
         <div className="w-full md:w-1/2 flex flex-col gap-4">
-          <ProductTitle product={product} />
+          <ProductTitle product={product} onTabSelect={handleTabSelect} />
           <ProductInfo product={product} />
           <ActionButtons product={product} />
           <ShippingDetails />
           <ProductAttributes attributes={productAttributes} />
         </div>
       </div>
-      <div className="mt-8">
-        <ProductTabs product={product} />
+      <div className="mt-8" ref={tabsRef}>
+        <ProductTabs
+          product={product}
+          activeTab={activeTab}
+          onTabChange={handleTabSelect}
+        />
       </div>
     </div>
   );

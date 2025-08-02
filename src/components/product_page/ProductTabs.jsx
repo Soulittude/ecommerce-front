@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import ReviewForm from "../ReviewForm";
 import ReviewList from "../ReviewList";
 
-const ProductTabs = ({ product }) => {
+const ProductTabs = ({ product, activeTab, onTabChange }) => {
   const { token } = useSelector((state) => state.auth);
   const [showQuestionForm, setShowQuestionForm] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
@@ -21,7 +21,7 @@ const ProductTabs = ({ product }) => {
   };
 
   return (
-    <Tabs defaultValue="description" className="w-full">
+    <Tabs value={activeTab} onValueChange={onTabChange} className="w-full">
       <TabsList className="grid w-full grid-cols-5">
         <TabsTrigger value="description">Description</TabsTrigger>
         <TabsTrigger value="reviews">
